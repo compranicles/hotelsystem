@@ -2,6 +2,9 @@
 
 <?= $this->section('content'); ?>
 <div class="container">
+    <?= $this->include('room/nav')?>
+</div>
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-4">
             <h2 class="mt-5">Add Room</h2>

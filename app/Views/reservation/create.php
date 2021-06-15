@@ -1,18 +1,28 @@
 <?= $this->extend("template/layout") ?>
 
 <?= $this->section("content") ?>
+<link rel="stylesheet" href="/pickadate.js-master/lib/themes/classic.css">
+<link rel="stylesheet" href="/pickadate.js-master/lib/themes/classic.date.css">
 
 <div class="container">
     <div class="row">
         <h2 class="my-5">Room Reservation</h2>
     </div>
-    <div class="row">
-        <h5>Personal Information</h5>
-    </div>
 
     <?= form_open(); ?>
     <form> 
-        <div class="row"> 
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label for="start_date">Start Date</label>
+                <input name="start_date" class="form-control" id="start_pick">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="end_date">End Date</label>
+                <input name="start_date" class="form-control" id="end_pick">
+            </div>
+        </div>
+
+        <!-- <div class="row"> 
             <div class="form-group col-md-3">
                 <label for="first_name" class="mt-2">First Name</label>
                 <input type="text" name="first_name" placeholder="First Name" class="form-control" required autocomplete="first_name"/>
@@ -39,9 +49,24 @@
                 <label for="email" class="mt-2">Email</label>
                 <input type="email" name="email" placeholder="Email" class="form-control" required autocomplete="email"/>
             </div>
-        </div>
+        </div> -->
     </form>
     <?= form_close(); ?>
 </div>
-<div class="container"></div>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<script src="/pickadate.js-master/lib/compressed/picker.js"></script>
+<script src="/pickadate.js-master/lib/compressed/picker.date.js"></script>
+<script>
+    $(document).ready( function () {
+        $('#start_pick').pickadate({
+            formatSubmit('yyyy-mm-dd'),
+            hiddenName: true
+        });
+        $('#end_pick').pickadate({
+            formatSubmit('yyyy-mm-dd'),
+            hiddenName: true
+        });
+    } );
+    
+</script>
 <?= $this->endSection() ?>

@@ -5,6 +5,7 @@ namespace App\Controllers;
 class Reservation extends BaseController
 {
     public function __construct() {
+		helper('url');
         helper('form');
     }
 

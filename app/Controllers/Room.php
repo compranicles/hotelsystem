@@ -26,9 +26,15 @@ class Room extends BaseController
 			];
 
 			if($this->roomModel->save($data) === true){
-				return redirect()->to(base_url().'/room');
+				return redirect()->to(base_url().'/room/add');
 			}
 		}
 		return view('room/add');
+	}
+
+	public function delete($id=null){
+		if($this->roomModel->where('id',$id)->delete()){
+			return redirect()->to(base_url().'/room');
+		}
 	}
 }
