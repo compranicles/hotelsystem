@@ -11,6 +11,7 @@ class Reservation extends BaseController
 
 	public function index()
 	{
+		date_default_timezone_set('Asia/Manila');
 		return view('reservation/create');
 	}
 }

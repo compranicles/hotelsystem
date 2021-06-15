@@ -16,7 +16,6 @@
                         <th>Room ID</th>
                         <th>Room Type</th>
                         <th>Room Description</th>
-                        <th>Rate Per Night</th>
                         <th>Room Status</th>
                         <th>Action</th>
                     </tr>
@@ -25,24 +24,11 @@
                     <?php foreach($rooms as $room): ?>
                     <tr>
                         <td><?= $room['id'] ?></td>    
-                        <td>
-                            <?php
-                                switch($room['room_type']){
-                                    case '1': echo 'Single Room';
-                                        break;
-                                    case '2': echo 'Double Room';
-                                        break;
-                                    case '3': echo 'Suite';
-                                        break;
-                                    default: echo 'Not Listed';
-                                }
-                            ?>
-                        </td>   
+                        <td><?= $room['room_type_name']?></td>   
                         <td><?= $room['room_description'] ?></td>    
-                        <td><?= $room['room_rate'] ?></td>
                         <td><?= ($room['room_status'] == '1') ? "Available" :  "Out of Order" ?></td>  
                         <td>
-                            <a href="" class="btn btn-primary">Edit</a>
+                            <a href="<?= base_url().'/room/edit/'.$room['id']?>" class="btn btn-outline-primary">Edit</a>
                             
                             <a href="<?= base_url().'/room/delete/'.$room['id'] ?>" class="btn btn-danger">Delete</a>
                         </td>
@@ -54,7 +40,6 @@
                         <th>Room ID</th>
                         <th>Room Type</th>
                         <th>Room Description</th>
-                        <th>Rate Per Night</th>
                         <th>Room Status</th>
                         <th>Action</th>
                     </tr>         
