@@ -33,6 +33,10 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->add('room/type/add', 'RoomType::add');
+$routes->add('room/type/(:any)/delete', 'RoomType::delete/$1');
+$routes->add('room/type/(:any)/edit', 'RoomType::edit/$1');
+$routes->add('room/type', 'RoomType::index');
 
 
 $routes->add('room/type', 'RoomType::index');
