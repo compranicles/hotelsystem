@@ -18,13 +18,13 @@
                             <div class="row mb-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" name="name" value="<?= $room['name']?>" id="name" placeholder="101" class="form-control">
+                                        <input type="text" name="name" value="<?= $room['name']?>" id="name" placeholder="101" class="form-control pb-1">
                                         <label for="name">Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" name="floor" value="<?= $room['floor']?>" id="floor" placeholder="floor" class="form-control">
+                                        <input type="text" name="floor" value="<?= $room['floor']?>" id="floor" placeholder="floor" class="form-control pb-1">
                                         <label for="floor">Floor Number</label>
                                     </div>
                                 </div>
@@ -40,7 +40,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <select name="room_type_id" id="type" class="form-select">
+                                        <select name="room_type_id" id="type" class="form-select pb-1">
                                             <option>Select the room type</option>
                                             <?php foreach($room_types as $type): ?>
                                             <option value="<?= $type['room_type_id']?>" <?= ($room['room_type_id'] == $type['room_type_id']) ? 'selected' : '' ?>> 
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <select name="room_status_id" id="status" class="form-select">
+                                        <select name="room_status_id" id="status" class="form-select pb-1">
                                             <option>Select the room's status</option>
                                             <?php foreach($room_status as $status): ?>
                                             <option value="<?= $status['room_status_id']?>" <?= ($room['room_status_id'] == $status['room_status_id']) ? 'selected' : '' ?>>

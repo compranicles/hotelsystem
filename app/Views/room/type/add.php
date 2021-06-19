@@ -20,7 +20,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" name="name" id="name" placeholder="e.g. Single Room, etc." class="form-control">
+                                        <input type="text" name="name" id="name" placeholder="e.g. Single Room, etc." class="form-control pb-1">
                                         <label for="name">Name</label>
                                     </div>
                                 </div>
@@ -28,7 +28,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <textarea name="description" class="form-control" placeholder="e.g. Room Size, Features" id="description" style="height: 100px"></textarea>
+                                        <textarea name="description" class="form-control pb-1" placeholder="e.g. Room Size, Features" id="description" style="height: 100px"></textarea>
                                         <label for="description">Description</label>  
                                     </div>
                                 </div>
@@ -36,13 +36,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <input type="number" name="price" id="price" placeholder="(PHP)" step="0.01" min="0" max="99999" class="form-control">
+                                        <input type="number" name="price" id="price" placeholder="(PHP)" step="0.01" min="0" max="99999" class="form-control pb-1">
                                         <label for="price">Price (PHP)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating mb-3">
-                                        <input type="number" name="max_guests" id="max_guests" placeholder="Minimum 1" min="1" max="5" class="form-control">
+                                        <input type="number" name="max_guests" id="max_guests" placeholder="Minimum 1" min="1" max="5" class="form-control pb-1">
                                         <label for="max_guests">Maximum number of guests</label>
                                     </div>
                                 </div>
