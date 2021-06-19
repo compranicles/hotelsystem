@@ -1,25 +1,32 @@
 <?= $this->extend('template/layout'); ?>
 
 <?= $this->section('content'); ?>
-<div class="container">
-    <?= $this->include('room/nav')?>
-</div>
-<div class="container">
+
+
+<div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <h4 class="mt-5">Edit Room</h4>
+            <h4 class="mb-3 text-center">Edit Room Type</h4>
             <?= form_open(); ?>
             <form>
-                <div class="form-group mt-2">
-                    <label for="room_type_name" class="mb-1">Room Type Name</label>
-                    <input type="text" name="room_type_name" value="<?= $room_type['room_type_name']?>" class="form-control">
+                <div class="form-floating mb-3">
+                    <input type="text" name="name" id="name" value="<?= $room_type['name']?>" placeholder="e.g. Single Room, etc." class="form-control">
+                    <label for="name">Name</label>
                 </div>
-                <div class="form-group mt-2">
-                    <label for="room_rate" class="mb-1">Rate Per Night</label>
-                    <input type="number" name="room_rate" value="<?= $room_type['room_rate']?>" step="0.01" min="0" max="99999" class="form-control" placeholder="00000.00" required>
+                <div class="form-floating mb-3">
+                    <textarea name="description" class="form-control" placeholder="e.g. Room Size, Features" id="description" style="height: 100px"><?= $room_type['description']?></textarea>
+                    <label for="description">Description</label>  
                 </div>
-                <div class="form-group mt-2">
-                    <input type="submit" value="Submit" class="btn btn-primary">
+                <div class="form-floating mb-3">
+                    <input type="number" name="price" id="price" value="<?= $room_type['price']?>" placeholder="(PHP)" step="0.01" min="0" max="99999" class="form-control">
+                    <label for="price">Price (PHP)</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="number" name="max_guests" id="max_guests" value="<?= $room_type['max_guests']?>" placeholder="Minimum 1" min="1" max="5" class="form-control">
+                    <label for="max_guests">Maximum number of guests</label>
+                </div>
+                <div class="form-group mt-2 text-center">
+                    <input type="submit" value="Update" class="btn btn-primary">
                 </div>
             </form>
             <?= form_close(); ?>

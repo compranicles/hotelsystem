@@ -21,8 +21,10 @@ class RoomType extends BaseController
         date_default_timezone_set('Asia/Manila');
         if($this->request->getMethod()=='post'){
 			$data =[
-				'room_type_name' => $this->request->getVar('room_type_name'),
-				'room_rate' => $this->request->getVar('room_rate'),
+				'name' => $this->request->getVar('name'),
+				'description' => $this->request->getVar('description'),
+                'price' => $this->request->getVar('price'),
+                'max_guests' => $this->request->getVar('max_guests'),
 			];
 
 			if($this->roomTypeModel->save($data) === true){
@@ -36,10 +38,12 @@ class RoomType extends BaseController
         date_default_timezone_set('Asia/Manila');
         $data['room_type'] = $this->roomTypeModel->find($id);
         if($this->request->getMethod()=='post'){
-            $data = [
-                'room_type_name' => $this->request->getVar('room_type_name'),
-				'room_rate' => $this->request->getVar('room_rate'),
-            ];
+            $data =[
+				'name' => $this->request->getVar('name'),
+				'description' => $this->request->getVar('description'),
+                'price' => $this->request->getVar('price'),
+                'max_guests' => $this->request->getVar('max_guests'),
+			];
 
             if($this->roomTypeModel->update($id, $data) === true){
                 return redirect()->to(base_url().'/room/type');

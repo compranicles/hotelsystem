@@ -4,10 +4,15 @@ use CodeIgniter\Model;
 
 class RoomTypeModel extends Model{
     protected $table = 'room_types';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'room_type_id';
 
     protected $returnType = 'array';
-    protected $allowedFields =['room_type_name', 'room_rate'];
+    protected $allowedFields =[
+        'name',
+        'description',
+        'price',
+        'max_guests',
+    ];
     
     protected $useSoftDeletes = true;
     protected $useTimestamps = true;
