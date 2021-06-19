@@ -12,7 +12,8 @@
                 <div class="card-header">
                     <h4>
                         Room Types
-                        <a href="<?= base_url().'/room/type/add'?>" class="btn btn-primary float-end">Add</a>
+                        <a href="<?= base_url().'/room/type/add'?>" class="btn btn-primary float-end ms-2">Add</a>
+                        <a href="<?= base_url().'/room'?>" class="btn btn-danger float-end">BACK</a>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -35,7 +36,7 @@
                                     <td><?= $type['price'] ?></td>
                                     <td><?= $type['max_guests'] ?></td>
                                     <td>
-                                        <a href="<?= base_url().'/room/type/'.$type['room_type_id'].'/edit' ?>" class="btn btn-outline-primary">Edit</a>
+                                        <a href="<?= base_url().'/room/type/'.$type['room_type_id'].'/edit' ?>" class="btn btn-outline-primary">Update</a>
                                         
                                         <a href="<?= base_url().'/room/type/'.$type['room_type_id'].'/delete' ?>" class="btn btn-danger">Delete</a>
                                     </td>
@@ -44,9 +45,9 @@
                             </tbody>
                         </table>
                     <?php else: ?>
-                        <h5 class="card-title">No Room Types</h5>
+                        <h4 class="card-title">No Room Types</h4>
                         <p class="card-text">Looks like you need to add</p>
-                        <a href="#" class="btn btn-primary">Go Add Room Types</a>
+                        <a href="<?= base_url().'/room/type/add'?>" class="btn btn-primary">Go Add Room Types</a>
                     <?php endif ?>
                 </div>
             </div>

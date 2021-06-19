@@ -28,7 +28,7 @@ class RoomType extends BaseController
 			];
 
 			if($this->roomTypeModel->save($data) === true){
-				return redirect()->to(base_url().'/room/type/add');
+				return redirect()->to(base_url().'/room/type');
 			}
 		}
         return view('room/type/add');
