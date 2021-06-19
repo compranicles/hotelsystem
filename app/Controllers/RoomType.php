@@ -36,6 +36,7 @@ class RoomType extends BaseController
 
     public function edit($id=null){
         date_default_timezone_set('Asia/Manila');
+
         $data['room_type'] = $this->roomTypeModel->find($id);
         if($this->request->getMethod()=='post'){
             $data =[
@@ -53,7 +54,7 @@ class RoomType extends BaseController
     }
 
     public function delete($id=null){
-        if($this->roomTypeModel->where('id',$id)->delete()){
+        if($this->roomTypeModel->where('room_type_id',$id)->delete()){
 			return redirect()->to(base_url().'/room/type');
 		}
     }

@@ -45,9 +45,13 @@
                             </tbody>
                         </table>
                     <?php else: ?>
-                        <h4 class="card-title">No Room Types</h4>
-                        <p class="card-text">Looks like you need to add</p>
-                        <a href="<?= base_url().'/room/type/add'?>" class="btn btn-primary">Go Add Room Types</a>
+                        <div class="row">
+                            <div class="col-md-12 text-center">
+                                <h4 class="card-title">No Room Types</h4>
+                                <p class="card-text">Looks like you need to add</p>
+                                <a href="<?= base_url().'/room/type/add'?>" class="btn btn-primary">Go Add Room Types</a>
+                            </div>
+                        </div>
                     <?php endif ?>
                 </div>
             </div>

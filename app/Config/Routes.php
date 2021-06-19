@@ -47,6 +47,8 @@ $routes->add('room/type/(:any)/edit', 'RoomType::edit/$1');
 
 $routes->add('payment/type', 'PaymentType::index');
 $routes->add('payment/type/add', 'PaymentType::add');
+$routes->add('payment/type/(:any)/delete', 'PaymentType::delete/$1');
+$routes->add('payment/type/(:any)/edit', 'PaymentType::edit/$1');
 
 /*
  * --------------------------------------------------------------------

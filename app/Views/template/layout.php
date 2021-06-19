@@ -7,40 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-<<<<<<< HEAD
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/style.css">
 
-=======
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jq-3.3.1/dt-1.10.25/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jq-3.3.1/dt-1.10.25/datatables.min.js"></script>
->>>>>>> 5443ac3112c68cca1c27dc5cb0c161d3cc4b79c1
     <title>Hotel Reservation System</title>
 </head>
     <body>
-
-    <header class="header">
-        <div class="header_content d-flex flex-column align-items-center justify-content-lg-end justify-content-center">
-
-            <div class="logo_container">
-            <a href="#">
-                <img class="logo" src="cavella_logo.png" alt="">
-            </a>
-            </div>
-            <!-- Main Nav -->
-            <nav class="main_nav">
-                <ul class="d-flex flex-row align-items-center justify-content-start">
-                <li><a class="active" href="/">Home</a></li>
-                <li><a href="#">Rooms</a></li>
-                <li><a href="#">About us</a></li> 
-                <li><a href="#">Contact</a></li>
-                </ul>
-                <!-- Hamburger Button -->
-                <?= $this->renderSection("forGuests");?>
-                <div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
-            </nav>
-        </div>
-    </header>
     
         <?= $this->renderSection("content");?>
 
