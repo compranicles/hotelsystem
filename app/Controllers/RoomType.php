@@ -14,7 +14,7 @@ class RoomType extends BaseController
 	{
 		date_default_timezone_set('Asia/Manila');
         $data['room_types'] = $this->roomTypeModel->findAll();
-		return view('room/type/show', $data);
+		return view('room/type/index', $data);
 	}
 
     public function add(){
