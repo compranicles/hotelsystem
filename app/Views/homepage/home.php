@@ -23,4 +23,12 @@
     </div>
 <!--<a href='https://www.freepik.com/photos/luxury'>Luxury photo created by dit26978 - www.freepik.com</a> -->
 </section>
+
+<div class="container">
+    <div class="navbar fixed-bottom">
+        <div class="container-fluid">
+            <?= $this->include('reservation/api')?>
+        </div>
+    </div>
+</div>
 <?= $this->endSection(); ?>

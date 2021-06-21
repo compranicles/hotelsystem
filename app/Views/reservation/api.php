@@ -1,9 +1,6 @@
-<?= $this->extend("template/layout") ?>
-
-<?= $this->section("content") ?>
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
             <div class="card text-center">
                 <div class="card-body">
                     <?= form_open(); ?>
@@ -33,7 +30,10 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <input type="submit" value="Check Availability" class="btn btn-outline-secondary py-3 px-5">
+                                    <div class="d-grid">
+                                        <input type="submit" value="Check Availability" class="btn btn-warning py-3 px-5">
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </form>
@@ -77,4 +77,3 @@
     picker.setDateRange(today, tomorrow, false);
 
 </script>
-<?= $this->endSection() ?>

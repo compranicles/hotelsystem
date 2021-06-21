@@ -8,7 +8,6 @@ use App\Models\RoomStatusModel;
 class Room extends BaseController
 {
     public function __construct() {
-        helper('form');
 		$this->roomModel = new RoomModel();
 		$this->roomTypeModel = new RoomTypeModel();
 		$this->roomStatusModel = new RoomStatusModel();
@@ -88,9 +87,6 @@ class Room extends BaseController
 	public function delete($id=null){
 		if($this->roomModel->where('room_id',$id)->delete() === true){
 			return redirect()->to(base_url().'/room');
-		}
-		else{
-
 		}
 	}
 }
