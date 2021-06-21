@@ -11,6 +11,7 @@ class Room extends BaseController
 		$this->roomModel = new RoomModel();
 		$this->roomTypeModel = new RoomTypeModel();
 		$this->roomStatusModel = new RoomStatusModel();
+		$this->session = \Config\Services::session();
     }
 
 	public function index()
@@ -40,7 +41,10 @@ class Room extends BaseController
 			];
 
 			if($this->roomModel->save($data) === true){
+				$this->session->setTempdata('success', 'Added Successfully!', 3);
 				return redirect()->to(base_url().'/room');
+			} else {
+				$this->session->setTempdata('error', 'Adding Failed', 3);
 			}
 		}
 		return view('room/add', $data);
@@ -77,7 +81,10 @@ class Room extends BaseController
 			];
 
 			if($this->roomModel->update($id, $data) === true){
+				$this->session->setTempdata('success', 'Updated Successfully!', 3);
 				return redirect()->to(base_url().'/room');
+			} else {
+				$this->session->setTempdata('error', 'Update Failed!', 3);
 			}
 		}
 
@@ -86,7 +93,11 @@ class Room extends BaseController
 
 	public function delete($id=null){
 		if($this->roomModel->where('room_id',$id)->delete() === true){
+			$this->session->setTempdata('success', 'Deleted Successfully!', 3);
 			return redirect()->to(base_url().'/room');
+		}
+		else{
+			$this->session->setTempdata('error', 'Delete Failed!', 3);
 		}
 	}
 }

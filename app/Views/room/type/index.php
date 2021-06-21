@@ -2,8 +2,7 @@
 
 <?= $this->section("content") ?>
 
-
-
+<?php $session = \Config\Services::session(); ?>
 
 <div class="container mt-4">
     <div class="row">
@@ -17,6 +16,21 @@
                     </h4>
                 </div>
                 <div class="card-body">
+                    <div class="container mb-2">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                <?php if ($session->getTempdata('success')): ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success'); ?>
+                                    </div>
+                                    <?php elseif ($session->getTempdata('error')): ?>
+                                    <div class="alert alert-danger" role="alert">
+                                    <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error'); ?>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
                     <?php if(count($room_types)>0): ?>
                         <table id="room_type_table" class="table">
                             <thead>
@@ -38,7 +52,7 @@
                                     <td>
                                         <a href="<?= base_url().'/room/type/'.$type['room_type_id'].'/edit' ?>" class="btn btn-outline-primary">Update</a>
                                         
-                                        <a href="<?= base_url().'/room/type/'.$type['room_type_id'].'/delete' ?>" class="btn btn-danger">Delete</a>
+                                        <button type="button" value="<?= $type['room_type_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $type['name']?>">Delete</button>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -58,11 +72,45 @@
         </div>
     </div>
 </div>
+
+<?= $this->include('delete'); ?>
+
 <script>
     $(document).ready( function () {
         $('#room_type_table').DataTable({
             "order": [[2, 'asc']],
         });
     } );
+
+    //Modal
+    var exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    var button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var typeName = button.getAttribute('data-bs-whatever')
+    var id = button.getAttribute('value')
+    // Update the modal's content.
+    //var modalTitle = exampleModal.querySelector('.modal-title')
+    var modalBody = exampleModal.querySelector('.modal-body p')
+    //var modalBody2 = exampleModal.querySelector('.modal-body2 p')
+
+    modalBody.textContent = 'You are about to delete the record of Room Type: ' + typeName + '. This procedure is irreversible.'
+
+    $('.confirm_del').click(function (e) {
+    e.preventDefault();
+
+    console.log(id);
+    var url = "/room/type/" + id + '/delete'
+    $.ajax({
+        url: url,
+        success: function () {
+            window.location = url
+            //$('#room_table').DataTable();
+        } 
+    })
+    })   
+
+})
 </script>
 <?= $this->endSection() ?>

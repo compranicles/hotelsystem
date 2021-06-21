@@ -142,4 +142,28 @@
 {
 	display: inline-block;
 }
+.hamburger i
+{
+	font-size: 24px;
+	color: #ffffff;
+	-webkit-transition: all 200ms ease;
+	-moz-transition: all 200ms ease;
+	-ms-transition: all 200ms ease;
+	-o-transition: all 200ms ease;
+	transition: all 200ms ease;
+}
+.menu_overlay .hamburger i
+{
+	color: #ff9000;
+}
+.hamburger:hover i
+{
+	color: #ff9000;
+}
+
+.icon {
+    color: rgb(175, 54, 54);
+    font-size: 5em;
+}
+
 

@@ -9,6 +9,7 @@ class PaymentType extends BaseController
 		helper('url');
         helper('form');
 		$this->paymentType = new paymentTypeModel();
+		$this->session = \Config\Services::session();
     }
 
 	public function index()
@@ -28,7 +29,10 @@ class PaymentType extends BaseController
 			];
 
 			if($this->paymentType->save($data) === true){
+				$this->session->setTempdata('success', 'Added Successfully!', 3);
 				return redirect()->to(base_url().'/payment/type');
+			} else {
+				$this->session->setTempdata('error', 'Adding Failed!', 3);
 			}
 		}
 		return view('payment/type/add');
@@ -45,7 +49,10 @@ class PaymentType extends BaseController
 			];
 
 			if($this->paymentType->update($id, $data) === true){
+				$this->session->setTempdata('success', 'Updated Successfully!', 3);
 				return redirect()->to(base_url().'/payment/type');
+			} else {
+				$this->session->setTempdata('error', 'Update Failed!', 3);
 			}
 		}
 		return view('payment/type/edit', $data);
@@ -53,7 +60,10 @@ class PaymentType extends BaseController
 
 	public function delete($id=null){
 		if($this->paymentType->where('payment_type_id',$id)->delete()){
+			$this->session->setTempdata('success', 'Deleted Successfully!', 3);
 			return redirect()->to(base_url().'/payment/type');
+		}else{
+			$this->session->setTempdata('error', 'Delete Failed!', 3);
 		}
 	}
 }

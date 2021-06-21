@@ -17,10 +17,10 @@
             <!-- Hamburger Button -->
             <!-- Navigation in Right Part of the Header -->
             <div class="right_nav">
-                <ul class="d-flex flex-row align-items-center justify-content-center">
-                    <div class="nav_right_links">
+                <ul class="d-flex flex-row align-items-center justify-content-start">
+
                         <li><a href="#">Login</a> | <a href="#">Register</a></li>
-                    </div>
+
                 </ul>
             </div>
             <div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
