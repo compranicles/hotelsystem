@@ -8,12 +8,9 @@ class Room extends BaseController
     public function __construct() {
         helper('form');
 		$this->roomModel = new RoomModel();
-<<<<<<< Updated upstream
-=======
 		$this->roomTypeModel = new RoomTypeModel();
 		$this->roomStatusModel = new RoomStatusModel();
 		$this->session = \Config\Services::session();
->>>>>>> Stashed changes
     }
 
 	public function index()
@@ -32,18 +29,6 @@ class Room extends BaseController
 			];
 
 			if($this->roomModel->save($data) === true){
-<<<<<<< Updated upstream
-				return redirect()->to(base_url().'/room/add');
-			}
-		}
-		return view('room/add');
-	}
-
-	public function delete($id=null){
-		if($this->roomModel->where('id',$id)->delete()){
-			return redirect()->to(base_url().'/room');
-		}
-=======
 				$this->session->setTempdata('success', 'Added Successfully!', 3);
 				return redirect()->to(base_url().'/room');
 			} else {
@@ -102,6 +87,5 @@ class Room extends BaseController
 		else{
 			$this->session->setTempdata('error', 'Delete Failed!', 3);
 		}
->>>>>>> Stashed changes
 	}
 }
