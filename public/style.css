@@ -86,7 +86,7 @@
     text-decoration: none;
 }
 .main_nav ul li a:hover,
-.main_nav ul li.active a
+.main_nav ul li a.active
 {
 	color: #e2af06;
 }
