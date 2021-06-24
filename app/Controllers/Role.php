@@ -9,6 +9,7 @@ class Role extends BaseController{
 
     public function __construct(){
         $this->roleModel = new RoleModel();
+        $this->session = \Config\Services::session();
     }
 
     public function index() {
@@ -25,7 +26,10 @@ class Role extends BaseController{
             ];
 
             if($this->roleModel->save($data) === true){
+                $this->session->setTempdata('success', 'Added Successfully!', 3);
                 return redirect()->to(base_url().'/role');
+            } else {
+                $this->session->setTempdata('error', 'Adding Failed!', 3);
             }
         }
        return view('role/add');
@@ -42,7 +46,10 @@ class Role extends BaseController{
             ];
 
             if($this->roleModel->update($id, $data) === true){
+                $this->session->setTempdata('success', 'Updated Successfully!', 3);
                 return redirect()->to(base_url().'/role');
+            } else {
+                $this->session->setTempdata('error', 'Update Failed!', 3);
             }
         }
         return view('role/edit', $data);
@@ -50,7 +57,10 @@ class Role extends BaseController{
 
     public function delete($id=null){
         if($this->roleModel->where('role_id', $id)->delete()){
+            $this->session->setTempdata('success', 'Deleted Successfully!', 3);
             return redirect()->to(base_url().'/role');
+        } else {
+            $this->session->setTempdata('error', 'Delete Failed!', 3);
         }
     }
 
@@ -71,14 +81,20 @@ class Role extends BaseController{
             'permission_id' => $permission_id
         ];
         if($roleperm->save($data) === true){
+            $this->session->setTempdata('success', 'Added Successfully!', 3);
             return redirect()->to(base_url().'/role/selectpermission/'.$role_id);
+        } else {
+            $this->session->setTempdata('error', 'Adding Failed!', 3);
         }
     }
 
     public function removePermissionToRole($role_id= null, $rope_id= null){
         $roleperm = new RolePermModel();
         if($roleperm->where('role_perm_id', $rope_id)->delete()){
+            $this->session->setTempdata('success', 'Removed Successfully!', 3);
             return redirect()->to(base_url().'/role/selectpermission/'.$role_id);
+        } else {
+            $this->session->setTempdata('error', 'Removing Failed!', 3);
         }
     }
 }

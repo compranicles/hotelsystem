@@ -7,6 +7,7 @@ class Permission extends BaseController{
     
     public function __construct() {
         $this->permissionModel = new PermissionModel();
+        $this->session = \Config\Services::session();
     }
 
     public function index(){
@@ -23,7 +24,10 @@ class Permission extends BaseController{
             ];
 
             if($this->permissionModel->save($data) === true){
+                $this->session->setTempdata('success', 'Added Successfully!', 3);
                 return redirect()->to(base_url().'/permission');
+            } else {
+                $this->session->setTempdata('error', 'Adding Failed!', 3);
             }
         }
 
@@ -41,7 +45,10 @@ class Permission extends BaseController{
             ];
 
             if($this->permissionModel->update($id, $data) === true){
+                $this->session->setTempdata('success', 'Updated Successfully!', 3);
                 return redirect()->to(base_url().'/permission');
+            } else {
+                $this->session->setTempdata('error', 'Update Failed!', 3);
             }
         }
         return view('permission/edit', $data);
@@ -49,7 +56,10 @@ class Permission extends BaseController{
 
     public function delete($id=null){
         if($this->permissionModel->where('permission_id', $id)->delete()){
+            $this->session->setTempdata('success', 'Deleted Successfully!', 3);
             return redirect()->to(base_url().'/permission');
+        } else {
+            $this->session->setTempdata('error', 'Delete Failed!', 3);
         }
     }
 

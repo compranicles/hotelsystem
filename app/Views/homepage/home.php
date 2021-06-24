@@ -10,25 +10,25 @@
             Stay at Cavella
         </h1>
 
-        <div class="col-md-8 offset-md-2 align-content-center">
+        <div class="col-md-8 offset-md-2">
         <h2 class="hero-subtitle">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ac ipsum odio. 
             Pellentesque accumsan pharetra sem, ac congue erat ornare vel. Quisque ac fringilla mi.
         </h2>
         </div>
 
-        <button class="hero-button">
+        <?= $this->include('reservation/api')?>
+        <!--<button class="hero-button">
             BOOK NOW
-        </button>
+        </button> -->
     </div>
-<!--<a href='https://www.freepik.com/photos/luxury'>Luxury photo created by dit26978 - www.freepik.com</a> -->
 </section>
 
-<div class="container">
-    <div class="navbar fixed-bottom">
-        <div class="container-fluid">
-            <?= $this->include('reservation/api')?>
+<!--<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+        
         </div>
     </div>
-</div>
+</div> -->
 <?= $this->endSection(); ?>
