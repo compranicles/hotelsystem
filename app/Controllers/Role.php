@@ -54,7 +54,7 @@ class Role extends BaseController{
         }
     }
 
-    public function selectPermission($id=null) {
+    public function permission($id=null) {
         
         $permission = new PermissionModel();
         $roleperm = new RolePermModel();
@@ -71,14 +71,14 @@ class Role extends BaseController{
             'permission_id' => $permission_id
         ];
         if($roleperm->save($data) === true){
-            return redirect()->to(base_url().'/role/selectpermission/'.$role_id);
+            return redirect()->to(base_url().'/role/permission/'.$role_id);
         }
     }
 
     public function removePermissionToRole($role_id= null, $rope_id= null){
         $roleperm = new RolePermModel();
         if($roleperm->where('role_perm_id', $rope_id)->delete()){
-            return redirect()->to(base_url().'/role/selectpermission/'.$role_id);
+            return redirect()->to(base_url().'/role/permission/'.$role_id);
         }
     }
 }
