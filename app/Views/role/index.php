@@ -18,13 +18,13 @@
                         <div class="container mb-2">
                                     <div class="row justify-content-center">
                                         <div class="col-lg-12">
-                                        <?php if ($session->getTempdata('success')): ?>
+                                        <?php if ($session->getTempdata('success_role')): ?>
                                             <div class="alert alert-success" role="alert">
-                                                <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success'); ?>
+                                                <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success_role'); ?>
                                             </div>
-                                            <?php elseif ($session->getTempdata('error')): ?>
+                                            <?php elseif ($session->getTempdata('error_role')): ?>
                                             <div class="alert alert-danger" role="alert">
-                                            <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error'); ?>
+                                            <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error_role'); ?>
                                             </div>
                                             <?php endif; ?>
                                         </div>

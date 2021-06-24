@@ -1,5 +1,8 @@
 <?= $this->extend('template/layout');?>
-<?= $this->section('content')?>
+<?= $this->section('content'); ?>
+
+<?php $session = \Config\Services::session(); ?>
+
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-12">
@@ -11,6 +14,21 @@
                     </h4>
                 </div>
                 <div class="card-body">
+                <div class="container mb-2">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                <?php if ($session->getTempdata('success_role_user')): ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success_role_user'); ?>
+                                    </div>
+                                    <?php elseif ($session->getTempdata('error_role_user')): ?>
+                                    <div class="alert alert-danger" role="alert">
+                                    <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error_role_user'); ?>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
                     <div class="container">
                         <div class="row">
                             <div class="col-md-6">

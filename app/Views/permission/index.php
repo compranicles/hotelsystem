@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <?= $this->include('delete'); ?>
+<?= $this->include('delete'); ?>
 
 <script>
     $(document).ready( function () {
@@ -75,8 +75,8 @@
         });
     } );
 
-        //Modal
-        var exampleModal = document.getElementById('exampleModal')
+    //Modal
+    var exampleModal = document.getElementById('exampleModal')
     exampleModal.addEventListener('show.bs.modal', function (event) {
     // Button that triggered the modal
     var button = event.relatedTarget
