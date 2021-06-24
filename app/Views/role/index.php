@@ -1,6 +1,9 @@
 <?= $this->extend('template/layout');?>
 
 <?= $this->section('content'); ?>
+
+<?php $session = \Config\Services::session(); ?>
+
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-md-10">
@@ -12,6 +15,21 @@
                         </h4>
                     </div>
                     <div class="card-body">
+                        <div class="container mb-2">
+                                    <div class="row justify-content-center">
+                                        <div class="col-lg-12">
+                                        <?php if ($session->getTempdata('success')): ?>
+                                            <div class="alert alert-success" role="alert">
+                                                <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success'); ?>
+                                            </div>
+                                            <?php elseif ($session->getTempdata('error')): ?>
+                                            <div class="alert alert-danger" role="alert">
+                                            <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error'); ?>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
                         <?php if(count($roles)>0): ?>
                             <table id="role_table"class="table">
                                 <thead>
@@ -29,7 +47,7 @@
                                         <td>
                                             <a href="<?= base_url().'/role/permission/'.$role['role_id']?>" class="btn btn-primary me-2">Permissions</a>
                                             <a href="<?= base_url().'/role/edit/'.$role['role_id'] ?>" class="btn btn-warning me-2">Update</a>
-                                            <a href="<?= base_url().'/role/delete/'.$role['role_id'] ?>" class="btn btn-danger">Delete</a>
+                                            <button type="button" value="<?= $role['role_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $role['name']?>">Delete</button>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
@@ -49,10 +67,44 @@
             </div>
         </div>
     </div>
+
+<?= $this->include('delete'); ?>
+
 <script>
     $(document).ready( function () {
         $('#role_table').DataTable({
         });
     } );
+
+    //Modal
+    var exampleModal = document.getElementById('exampleModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    var button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var roleName = button.getAttribute('data-bs-whatever')
+    var id = button.getAttribute('value')
+    // Update the modal's content.
+    //var modalTitle = exampleModal.querySelector('.modal-title')
+    var modalBody = exampleModal.querySelector('.modal-body p')
+    //var modalBody2 = exampleModal.querySelector('.modal-body2 p')
+
+    modalBody.textContent = 'You are about to delete the record of Role: ' + roleName + '. This procedure is irreversible.'
+
+    $('.confirm_del').click(function (e) {
+    e.preventDefault();
+
+    console.log(id);
+    var url = "/role/delete/" + id
+    $.ajax({
+        url: url,
+        success: function () {
+            window.location = url
+            //$('#room_table').DataTable();
+        } 
+    })
+    })   
+
+})
 </script>
 <?= $this->endSection()?>
