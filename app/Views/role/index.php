@@ -45,7 +45,7 @@
                                         <td><?= $role['name']?></td>
                                         <td><?= $role['description']?></td>
                                         <td>
-                                            <a href="<?= base_url().'/role/selectpermission/'.$role['role_id']?>" class="btn btn-primary me-2">Permissions</a>
+                                            <a href="<?= base_url().'/role/permission/'.$role['role_id']?>" class="btn btn-primary me-2">Permissions</a>
                                             <a href="<?= base_url().'/role/edit/'.$role['role_id'] ?>" class="btn btn-warning me-2">Update</a>
                                             <button type="button" value="<?= $role['role_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $role['name']?>">Delete</button>
                                         </td>

@@ -64,7 +64,7 @@ class Role extends BaseController{
         }
     }
 
-    public function selectPermission($id=null) {
+    public function permission($id=null) {
         
         $permission = new PermissionModel();
         $roleperm = new RolePermModel();
@@ -82,9 +82,10 @@ class Role extends BaseController{
         ];
         if($roleperm->save($data) === true){
             $this->session->setTempdata('success', 'Added Successfully!', 3);
-            return redirect()->to(base_url().'/role/selectpermission/'.$role_id);
+            return redirect()->to(base_url().'/role/permission/'.$role_id);
         } else {
             $this->session->setTempdata('error', 'Adding Failed!', 3);
+            return redirect()->to(base_url().'/role/permission/'.$role_id);
         }
     }
 
@@ -92,9 +93,10 @@ class Role extends BaseController{
         $roleperm = new RolePermModel();
         if($roleperm->where('role_perm_id', $rope_id)->delete()){
             $this->session->setTempdata('success', 'Removed Successfully!', 3);
-            return redirect()->to(base_url().'/role/selectpermission/'.$role_id);
+            return redirect()->to(base_url().'/role/permission/'.$role_id);
         } else {
             $this->session->setTempdata('error', 'Removing Failed!', 3);
+            return redirect()->to(base_url().'/role/permission/'.$role_id);
         }
     }
 }

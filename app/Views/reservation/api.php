@@ -53,7 +53,7 @@
     var month = new Date().getMonth();
     var day = new Date().getDate();
     var dateMin = new Date(year, month, day);
-    var dateMax = new Date(year+1, month, day+1);
+    var dateMax = new Date(year+1, month, day);
 
     const picker = new Litepicker({
         element: document.getElementById('start-date'),
@@ -72,6 +72,7 @@
         numberOfMonths: 2,
         minDate: dateMin,
         maxDate: dateMax,
+        firstDay: 0
     });
 
     picker.setDateRange(today, tomorrow, false);
