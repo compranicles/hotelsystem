@@ -7,6 +7,10 @@ use App\Models\UserAccessModel;
 
 class User extends BaseController{
 
+    public function __construct() {
+        $this->session = \Config\Services::session();
+    }
+
     public function index(){
         $userModel = new UserModel();
         $data['users'] = $userModel->findAll();
@@ -37,7 +41,10 @@ class User extends BaseController{
             ];
             if($uacModel->save($uacdata)){
                 //add alerts here
+                $this->session->setTempdata('success_user', 'Added Successfully!', 3);
                 return redirect()->to(base_url().'/user/add');
+            } else {
+                $this->session->setTempdata('error_user', 'Adding Failed!', 3);
             }
         }
         
@@ -63,7 +70,10 @@ class User extends BaseController{
     public function delete($id){
         $userModel = new UserModel();
         if($userModel->where('user_id', $id)->delete() === true){
+            $this->session->setTempdata('success_user', 'Deleted Successfully!', 3);
             return redirect()->to(base_url().'/user');
+        } else {
+            $this->session->setTempdata('error_user', 'Delete Failed!', 3);
         }
     }
     
@@ -87,14 +97,20 @@ class User extends BaseController{
             'role_id' => $role_id
         ];
         if($uacModel->save($data) === true){
+            $this->session->setTempdata('success_role_user', 'Added Successfully!', 3);
             return redirect()->to(base_url().'/user/role/'.$user_id);
+        } else {
+            $this->session->setTempdata('error_role_user', 'Adding Failed!', 3);
         }
     }
 
     public function removeRoleToUser($user_id= null, $uac_id= null){
         $uacModel = new UserAccessModel();
         if($uacModel->where('user_access_id', $uac_id)->delete()){
+            $this->session->setTempdata('success_role_user', 'Removed Successfully!', 3);
             return redirect()->to(base_url().'/user/role/'.$user_id);
+        } else {
+            $this->session->setTempdata('error_role_user', 'Removing Failed!', 3);
         }
     }
 }
