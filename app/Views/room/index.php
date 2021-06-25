@@ -1,7 +1,7 @@
 <?= $this->extend("template/layout") ?>
 
 <?= $this->section("content") ?>
-
+<?= $this->include('bars/sidebar.php')?>
 <?php $session = \Config\Services::session(); ?>
 
 <div class="container mt-4">

@@ -18,7 +18,7 @@ class User extends BaseController{
     }
 
     public function dashboard(){
-        
+        return view('user/dashboard');
     }
 
     public function add(){
