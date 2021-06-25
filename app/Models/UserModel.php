@@ -46,4 +46,19 @@ class UserModel extends Model{
             return false;
         }
     }
+
+    // public function verifyEmail($email){
+    //     $db = \Config\Database::connect();
+    //     $builder = $db->table('users');
+    //     $builder->select("user_id, password");
+    //     $builder->where('email_address', $email);
+    //     $builder->where('date_deleted', NULL);
+    //     $result = $builder->get();
+    //     if(count($result->getResultArray()) == 1){
+    //         return $result->getRowArray();
+    //     }
+    //     else{
+    //         return false;
+    //     }
+    // }
 }

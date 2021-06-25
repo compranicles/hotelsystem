@@ -43,7 +43,7 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="/js/litepicker.js"></script>
 <script>
     const today = new Date();
     const tomorrow = new Date(today);
@@ -72,7 +72,8 @@
         numberOfMonths: 2,
         minDate: dateMin,
         maxDate: dateMax,
-        firstDay: 0
+        firstDay: 0,
+        position: 'top left'
     });
 
     picker.setDateRange(today, tomorrow, false);
