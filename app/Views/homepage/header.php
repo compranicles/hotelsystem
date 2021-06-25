@@ -2,7 +2,7 @@
     <div class="header_content d-flex flex-column align-items-center justify-content-lg-end justify-content-center">
 
         <div class="logo_container">
-        <a href="#">
+        <a href="<?= base_url()?>">
             <img class="logo" src="cavella_logo.png" alt="">
         </a>
         </div>
@@ -19,7 +19,7 @@
             <div class="right_nav">
                 <ul class="d-flex flex-row align-items-center justify-content-start">
 
-                        <li><a href="#">Login</a> | <a href="#">Register</a></li>
+                        <li><a href="<?= base_url().'/login'?>">Login</a> | <a href="<?= base_url().'/register' ?>">Register</a></li>
 
                 </ul>
             </div>

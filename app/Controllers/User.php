@@ -17,6 +17,10 @@ class User extends BaseController{
         return view('user/index', $data);
     }
 
+    public function dashboard(){
+        
+    }
+
     public function add(){
         $role = new RoleModel();
         $data['roles'] = $role->findAll();

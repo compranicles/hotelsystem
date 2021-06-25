@@ -60,7 +60,7 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
+<script src="/js/litepicker.js"></script>
 <script>
     const today = new Date();
 
