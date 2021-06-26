@@ -12,6 +12,7 @@
             <h5>Menu Items:</h5>
         </div>
         <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action">Check-In</a>
             <a href="#" class="list-group-item list-group-item-action">Reports</a>
             <a href="#" class="list-group-item list-group-item-action">Reservations</a>
             <a href="#" class="list-group-item list-group-item-action">Payments</a>

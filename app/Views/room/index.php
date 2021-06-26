@@ -4,7 +4,7 @@
 <?= $this->include('bars/sidebar.php')?>
 <?php $session = \Config\Services::session(); ?>
 
-<div class="container mt-5">
+<div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -37,7 +37,6 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Floor Number</th>
-                                    <th>Room Image</th>
                                     <th>Room Type</th>
                                     <th>Room Status</th>
                                     <th>Action</th>
@@ -45,12 +44,14 @@
                             </thead>
                             <tbody>
                                 <?php foreach($rooms as $room): ?>
-                                <tr>
+                                <tr class="<?php 
+                                            if($room['room_status'] == 'Not Available')
+                                                echo "table-danger";
+                                            elseif($room['room_status'] == 'On Renovation')
+                                                echo "table-warning";
+                                            ?>">
                                     <td><?= $room['name'] ?></td>    
-                                    <td><?= $room['floor'] ?></td>   
-                                    <td>
-                                        <img src="<?= 'uploads/'.$room['photo'] ?>" alt="<?= 'Room '.$room['name'] ?>" height="50px" width="50px">
-                                    </td>    
+                                    <td><?= $room['floor'] ?></td>       
                                     <td><?= $room['room_type'] ?></td>  
                                     <td><?= $room['room_status'] ?></td>
                                     <td>
@@ -81,7 +82,9 @@
 
 <script>
     $(document).ready( function () {
-        $('#room_table').DataTable();
+        $('#room_table').DataTable({
+            "order":[[0, 'desc']],
+        });
     });
 
     //Modal
