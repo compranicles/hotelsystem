@@ -3,16 +3,19 @@
 <?= $this->section("content") ?>
 
 <?php $session = \Config\Services::session(); ?>
+<?= $this->include('bars/navbar')?>
 
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <h4>
                         Payment Types
-                        <a href="<?= base_url().'/payment/type/add'?>" class="btn btn-primary float-end ms-2">Add</a>
-                        <a href="<?= base_url().'/payment'?>" class="btn btn-danger float-end">BACK</a>
+                        <div class="btn-group float-end" role="group">
+                            <a href="<?= base_url().'/payment/type/add'?>" class="btn btn-sm btn-primary">Add</a>
+                            <a href="<?= base_url().'/payment'?>" class="btn btn-sm btn-danger float-end">Back</a>
+                        </div>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -32,7 +35,7 @@
                                 </div>
                             </div>
                     <?php if(count($payment_types)>0): ?>
-                        <table id="payment_type_table" class="table">
+                        <table id="payment_type_table" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -48,8 +51,10 @@
                                     <td><?= $type['description'] ?></td>
                                     <td><?= date('F j, Y', strtotime($type['date_created'])) ?></td>
                                     <td>
-                                        <a href="<?= base_url().'/payment/type/'.$type['payment_type_id'].'/edit' ?>" class="btn btn-outline-primary">Update</a>
-                                        <button type="button" value="<?= $type['payment_type_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $type['name']?>">Delete</button>
+                                        <div class="btn-group">
+                                            <a href="<?= base_url().'/payment/type/'.$type['payment_type_id'].'/edit' ?>" class="btn btn-sm btn-warning">Update</a>
+                                            <button type="button" value="<?= $type['payment_type_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $type['name']?>">Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

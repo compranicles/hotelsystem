@@ -3,15 +3,15 @@
 <?= $this->section('content'); ?>
 
 <?php $session = \Config\Services::session(); ?>
-
-<div class="container mt-4">
+<?= $this->include('bars/navbar')?>
+<div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
                     <h4>
                         Users
-                        <a href="<?= base_url().'/user/add'?>" class="btn btn-primary float-end">Add</a>
+                        <a href="<?= base_url().'/user/add'?>" class="btn btn-sm btn-primary float-end">Add</a>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -31,13 +31,11 @@
                         </div>
                     </div>
                     <?php if(count($users) > 0): ?>
-                        <table id="users_table" class="table">
+                        <table id="users_table" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>User Id</th>
                                     <th>User Name</th>
-                                    <th>User Data</th>
-                                    <th>User Roles</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -45,15 +43,15 @@
                                 <?php foreach($users as $user): ?>
                                 <tr>
                                     <td><?= $user['user_id'] ?></td>
-                                    <td><?= $user['first_name']." ".$user['last_name']?></td>
                                     <td>
-                                        <a href="<?= base_url().'/user/view/'.$user['user_id'] ?>" class="btn btn-primary">View Data</a>
+                                        <?= strtoupper($user['last_name'].", ".$user['first_name'])?>
                                     </td>
                                     <td>
-                                        <a href="<?= base_url().'/user/role/'.$user['user_id'] ?>" class="btn btn-secondary">Manage Roles</a>
-                                    </td>
-                                    <td>    
-                                        <button type="button" value="<?= $user['user_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $user['first_name']." ".$user['last_name']?>">Delete</button>
+                                        <div class="btn-group" role="group">
+                                            <a href="<?= base_url().'/user/view/'.$user['user_id'] ?>" class="btn btn-sm btn-primary">View</a>
+                                            <a href="<?= base_url().'/user/role/'.$user['user_id'] ?>" class="btn btn-sm btn-secondary">Roles</a> 
+                                            <button type="button" value="<?= $user['user_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $user['first_name']." ".$user['last_name']?>">Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

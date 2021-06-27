@@ -3,15 +3,16 @@
 <?= $this->section('content'); ?>
 
 <?php $session = \Config\Services::session(); ?>
+<?= $this->include('bars/navbar')?>
 
-    <div class="container mt-4">
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <h4>
                             Permissions
-                            <a href="<?= base_url().'/permission/add'?>" class="btn btn-primary float-end">Add</a>
+                            <a href="<?= base_url().'/permission/add'?>" class="btn btn-sm btn-primary float-end">Add</a>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -31,7 +32,7 @@
                                 </div>
                             </div>
                         <?php if(count($permissions)>0): ?>
-                            <table id="permission_table"class="table">
+                            <table id="permission_table" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -45,8 +46,10 @@
                                         <td><?= $permission['name']?></td>
                                         <td><?= $permission['description']?></td>
                                         <td>
-                                            <a href="<?= base_url().'/permission/edit/'.$permission['permission_id'] ?>" class="btn btn-warning me-2">Update</a>
-                                            <button type="button" value="<?= $permission['permission_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $permission['name']?>">Delete</button>
+                                            <div class="btn-group" role="alert">
+                                                <a href="<?= base_url().'/permission/edit/'.$permission['permission_id'] ?>" class="btn btn-sm btn-warning">Update</a>
+                                                <button type="button" value="<?= $permission['permission_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $permission['name']?>">Delete</button>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>

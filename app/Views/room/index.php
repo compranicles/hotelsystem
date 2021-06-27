@@ -1,18 +1,20 @@
 <?= $this->extend("template/layout") ?>
 
 <?= $this->section("content") ?>
-
+<?= $this->include('bars/navbar')?>
 <?php $session = \Config\Services::session(); ?>
 
-<div class="container mt-4">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
                     <h4>
                         Rooms
-                        <a href="<?= base_url().'/room/type'?>" class="btn btn-outline-secondary float-end ms-2">Room Types</a>
-                        <a href="<?= base_url().'/room/add'?>" class="btn btn-primary float-end">Add</a>
+                        <div class="btn-group float-end" role="group">  
+                            <a href="<?= base_url().'/room/add'?>" class="btn btn-sm btn-primary">Add</a>
+                            <a href="<?= base_url().'/room/type'?>" class="btn btn-sm btn-secondary">Room Types</a>
+                        </div>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -32,12 +34,11 @@
                         </div>
                     </div>
                     <?php if(count($rooms)>0): ?>
-                        <table id="room_table" class="table">
+                        <table id="room_table" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Floor Number</th>
-                                    <th>Room Image</th>
                                     <th>Room Type</th>
                                     <th>Room Status</th>
                                     <th>Action</th>
@@ -47,16 +48,19 @@
                                 <?php foreach($rooms as $room): ?>
                                 <tr>
                                     <td><?= $room['name'] ?></td>    
-                                    <td><?= $room['floor'] ?></td>   
-                                    <td>
-                                        <img src="<?= 'uploads/'.$room['photo'] ?>" alt="<?= 'Room '.$room['name'] ?>" height="50px" width="50px">
-                                    </td>    
+                                    <td><?= $room['floor'] ?></td>       
                                     <td><?= $room['room_type'] ?></td>  
-                                    <td><?= $room['room_status'] ?></td>
+                                    <td class="<?php 
+                                            if($room['room_status'] == 'Not Available')
+                                                echo "text-danger";
+                                            elseif($room['room_status'] == 'On Renovation')
+                                                echo "text-warning";
+                                            ?>"><strong><?= $room['room_status'] ?></strong></td>
                                     <td>
-                                        <a href="<?= base_url().'/room/edit/'.$room['room_id'] ?>" class="btn btn-outline-primary">Update</a>
-                                        
-                                        <button type="button" value="<?= $room['room_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $room['name']?>">Delete</button>
+                                        <div class="btn-group" role="group">
+                                            <a href="<?= base_url().'/room/edit/'.$room['room_id'] ?>" class="btn btn-sm btn-warning">Update</a>
+                                            <button type="button" value="<?= $room['room_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $room['name']?>">Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>
@@ -81,7 +85,9 @@
 
 <script>
     $(document).ready( function () {
-        $('#room_table').DataTable();
+        $('#room_table').DataTable({
+            "order":[[0, 'desc']],
+        });
     });
 
     //Modal

@@ -12,9 +12,6 @@ class Home extends BaseController
 	public function index()
 	{	
 		$data['room_types'] = $this->roomType->findAll();
-		if($this->request->getMethod('post')){
-
-		}
 		return view('homepage/home',$data);
 	}
 }

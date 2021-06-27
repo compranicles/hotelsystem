@@ -3,15 +3,15 @@
 <?= $this->section('content'); ?>
 
 <?php $session = \Config\Services::session(); ?>
-
-    <div class="container mt-4">
+<?= $this->include('bars/navbar')?>
+    <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">
                         <h4>
                             Roles
-                            <a href="<?= base_url().'/role/add'?>" class="btn btn-primary float-end">Add</a>
+                            <a href="<?= base_url().'/role/add'?>" class="btn btn-sm btn-primary float-end">Add</a>
                         </h4>
                     </div>
                     <div class="card-body">
@@ -31,7 +31,7 @@
                                     </div>
                                 </div>
                         <?php if(count($roles)>0): ?>
-                            <table id="role_table"class="table">
+                            <table id="role_table"class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
@@ -45,9 +45,11 @@
                                         <td><?= $role['name']?></td>
                                         <td><?= $role['description']?></td>
                                         <td>
-                                            <a href="<?= base_url().'/role/permission/'.$role['role_id']?>" class="btn btn-primary me-2">Permissions</a>
-                                            <a href="<?= base_url().'/role/edit/'.$role['role_id'] ?>" class="btn btn-warning me-2">Update</a>
-                                            <button type="button" value="<?= $role['role_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $role['name']?>">Delete</button>
+                                            <div class="btn-group" role="group">
+                                                <a href="<?= base_url().'/role/permission/'.$role['role_id']?>" class="btn btn-sm btn-secondary">Permissions</a>
+                                                <a href="<?= base_url().'/role/edit/'.$role['role_id'] ?>" class="btn btn-sm btn-warning">Update</a>
+                                                <button type="button" value="<?= $role['role_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $role['name']?>">Delete</button>
+                                            </div>
                                         </td>
                                     </tr>
                                     <?php endforeach; ?>
