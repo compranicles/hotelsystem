@@ -77,16 +77,12 @@ class Reservation extends BaseController
 			'reservation_id' => $reserve_id,
 			'user_id' => '17', //temporary id
 		];
-		if($bookModel->save($bookingdata)){
-			return true;
-		}
-		else{
-			//error handler
-			return false;
-		}
+		$bookingId = $bookModel->saveGetId($bookingdata);
+		return "/reservation/success/".$bookingId;
 	}
 
-	public function view(){
-		return view('reservation/view');
+	public function success($bookingId){
+		$data['bookingcode'] = password_hash($bookingId, PASSWORD_DEFAULT);
+		return view('reservation/success', $data);
 	}
 }

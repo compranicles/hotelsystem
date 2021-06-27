@@ -13,4 +13,11 @@ class BookingModel extends Model{
     ];
 
     protected $useSoftDeletes = false;
+
+    public function saveGetId($data){
+        $db = \Config\Database::connect();
+        $builder = $db->table('bookings');
+        $builder->insert($data);
+        return $db->insertID();
+    }
 }

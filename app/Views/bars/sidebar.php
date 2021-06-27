@@ -1,18 +1,14 @@
-<button class="btn btn-warning" type="button" data-bs-toggle="offcanvas" data-bs-target="#admin" aria-controls="admin">
-    Menu
-</button>
-
-<div class="offcanvas offcanvas-start" tabindex="-1" id="admin" aria-labelledby="adminLabel">
+<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="admin" aria-labelledby="adminLabel">
     <div class="offcanvas-header">
         <h3 class="offcanvas-title" id="adminLabel">Hello User!</h3>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
         <div>
-            <h5>Menu Items:</h5>
+            <h5>Options:</h5>
         </div>
         <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action">Check-In</a>
+            <a href="#" class="list-group-item list-group-item-action">Scan QR Code</a>
             <a href="#" class="list-group-item list-group-item-action">Reports</a>
             <a href="#" class="list-group-item list-group-item-action">Reservations</a>
             <a href="#" class="list-group-item list-group-item-action">Payments</a>

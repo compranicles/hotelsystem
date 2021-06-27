@@ -1,3 +1,4 @@
+<!-- Not a crud just a form for add view and edit -->
 <div class="row"> 
     <div class="col-md-6">
         <div class="form-floating mb-3">

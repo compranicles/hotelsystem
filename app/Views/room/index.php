@@ -1,10 +1,10 @@
 <?= $this->extend("template/layout") ?>
 
 <?= $this->section("content") ?>
-<?= $this->include('bars/sidebar.php')?>
+<?= $this->include('bars/navbar')?>
 <?php $session = \Config\Services::session(); ?>
 
-<div class="container">
+<div class="container mt-5">
     <div class="row">
         <div class="col-md-12">
             <div class="card">

@@ -3,7 +3,7 @@
 <?= $this->section('content');?>
 
 <?php $session = \Config\Services::session(); ?>
-<?= $this->include('bars/sidebar.php')?>
+<?= $this->include('bars/navbar')?>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
