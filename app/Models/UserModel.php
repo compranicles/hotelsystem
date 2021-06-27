@@ -9,6 +9,7 @@ class UserModel extends Model{
     
     protected $returnType = 'array';
     protected $allowedFields = [
+        'user_id',
         'first_name',
         'last_name',
         'date_of_birth',
@@ -46,6 +47,25 @@ class UserModel extends Model{
             return false;
         }
     }
+
+    public function getPassword($id) {
+        $builder = $this->db->table('users');
+        $builder->select("password");
+        $builder->where('user_id', $id);
+        $result = $builder->get();
+
+        return $result->getRowArray();
+    }
+
+    /*public function getUserId($email) {
+        //for change password
+        $builder = $this->db->table('users');
+        $builder->select("user_id");
+        $builder->where('email_address', $email);
+        $result = $builder->get();
+
+        return $result->getRowArray();
+    }*/
 
     // public function verifyEmail($email){
     //     $db = \Config\Database::connect();
