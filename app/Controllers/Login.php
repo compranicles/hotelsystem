@@ -16,11 +16,13 @@ class Login extends BaseController{
             
             $userdata = $this->userModel->where('email_address', $email)
                                         ->findall();
+
             // return view('login/index', $userdata);
             if($userdata){
                 if(password_verify($password, $userdata[0]['password'])){
                     //email and password correct
                     //more session code here
+                    $this->session->set('logged_in', $userdata[0]['user_id']);
                     return redirect()->to(base_url().'/user/dashboard');
                 }
                 else{
