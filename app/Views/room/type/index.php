@@ -11,8 +11,10 @@
                 <div class="card-header">
                     <h4>
                         Room Types
-                        <a href="<?= base_url().'/room/type/add'?>" class="btn btn-primary float-end ms-2">Add</a>
-                        <a href="<?= base_url().'/room'?>" class="btn btn-danger float-end">BACK</a>
+                        <div class="btn-group float-end" role="group">
+                            <a href="<?= base_url().'/room/type/add'?>" class="btn btn-sm btn-primary">Add</a>
+                            <a href="<?= base_url().'/room'?>" class="btn btn-sm btn-danger">Back</a>
+                        </div>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -32,7 +34,7 @@
                             </div>
                         </div>
                     <?php if(count($room_types)>0): ?>
-                        <table id="room_type_table" class="table">
+                        <table id="room_type_table" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -50,9 +52,10 @@
                                     <td><?= $type['price'] ?></td>
                                     <td><?= $type['max_guests'] ?></td>
                                     <td>
-                                        <a href="<?= base_url().'/room/type/'.$type['room_type_id'].'/edit' ?>" class="btn btn-outline-primary">Update</a>
-                                        
-                                        <button type="button" value="<?= $type['room_type_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $type['name']?>">Delete</button>
+                                        <div class="btn-group" role="group">
+                                            <a href="<?= base_url().'/room/type/'.$type['room_type_id'].'/edit' ?>" class="btn btn-sm btn-warning">Update</a>
+                                            <button type="button" value="<?= $type['room_type_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $type['name']?>">Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

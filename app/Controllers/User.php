@@ -71,6 +71,30 @@ class User extends BaseController{
         return view('user/selectrole', $data);
     }
 
+    public function edit($id=17){//temporary id
+        $userModel = new UserModel();
+        $data['user'] = $userModel->find($id);
+        if($this->request->getMethod()=='post'){
+            $data=[
+                'first_name' => $this->request->getVar('first_name'),
+                'last_name' => $this->request->getVar('last_name'),
+                'date_of_birth' => $this->request->getVar('date_of_birth'),
+                'gender' => $this->request->getVar('gender'),
+                'email_address' => $this->request->getVar('email'),
+                'mobile_number' => $this->request->getVar('phone_number'),
+                'password' => $data['user']['password'],
+            ];
+            if($userModel->update($id, $data) === true){
+                $this->session->setTempdata('success_edit', 'Added Successfully!', 3);
+                return redirect()->to(base_url().'/user/edit');
+            }
+            else{
+                $this->session->setTempdata('error_edit', 'Adding Failed!', 3);
+            }
+        }
+        return view('user/edit', $data);
+    }
+
     public function delete($id){
         $userModel = new UserModel();
         if($userModel->where('user_id', $id)->delete() === true){

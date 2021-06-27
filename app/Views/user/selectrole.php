@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="card-body">
                                         <?php if(count($roleunselected) > 0): ?>
-                                            <table id="roleunselected_table" class="table">
+                                            <table id="roleunselected_table" class="table table-striped">
                                                 <thead>
                                                     <tr>
                                                         <th>Role Name</th>
@@ -52,7 +52,7 @@
                                                         <tr>
                                                             <td><?= $row['role_name'] ?></td>
                                                             <td>
-                                                                <a href="<?= base_url().'/user/addRoleToUser/'.$user['user_id'].'/'.$row['role_id']?>" class="btn btn-success me-2">Add</a>
+                                                                <a href="<?= base_url().'/user/addRoleToUser/'.$user['user_id'].'/'.$row['role_id']?>" class="btn btn-sm btn-success me-2">Add</a>
                                                             </td>
                                                         </tr>
                                                     <?php endforeach ?>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="card-body">
                                         <?php if(count($roleselected) > 0): ?>
-                                            <table id="roleselected_table" class="table">
+                                            <table id="roleselected_table" class="table table-striped table-hover">
                                                 <thead>
                                                     <tr>
                                                         <th>Role Name</th>
@@ -83,7 +83,7 @@
                                                         <tr>
                                                             <td><?= $row['role_name'] ?></td>
                                                             <td>
-                                                                <a href="<?= base_url().'/user/removeRoleToUser/'.$user['user_id'].'/'.$row['uac_id']?>" class="btn btn-danger me-2">Remove</a>
+                                                                <a href="<?= base_url().'/user/removeRoleToUser/'.$user['user_id'].'/'.$row['uac_id']?>" class="btn btn-sm btn-danger me-2">Remove</a>
                                                             </td>
                                                         </tr>
                                                     <?php endforeach ?>

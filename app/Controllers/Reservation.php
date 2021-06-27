@@ -18,8 +18,7 @@ class Reservation extends BaseController
 	public function index()
 	{
 		date_default_timezone_set('Asia/Manila');
-		$data['room_types'] = $this->roomType->findAll();
-		return view('reservation/index', $data);
+		return view('reservation/index');
 	}
 
 	public function showroom(){

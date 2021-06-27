@@ -11,8 +11,10 @@
                 <div class="card-header">
                     <h4>
                         Rooms
-                        <a href="<?= base_url().'/room/type'?>" class="btn btn-outline-secondary float-end ms-2">Room Types</a>
-                        <a href="<?= base_url().'/room/add'?>" class="btn btn-primary float-end">Add</a>
+                        <div class="btn-group float-end" role="group">  
+                            <a href="<?= base_url().'/room/add'?>" class="btn btn-sm btn-primary">Add</a>
+                            <a href="<?= base_url().'/room/type'?>" class="btn btn-sm btn-secondary">Room Types</a>
+                        </div>
                     </h4>
                 </div>
                 <div class="card-body">
@@ -32,7 +34,7 @@
                         </div>
                     </div>
                     <?php if(count($rooms)>0): ?>
-                        <table id="room_table" class="table">
+                        <table id="room_table" class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th>Name</th>
@@ -44,20 +46,21 @@
                             </thead>
                             <tbody>
                                 <?php foreach($rooms as $room): ?>
-                                <tr class="<?php 
-                                            if($room['room_status'] == 'Not Available')
-                                                echo "table-danger";
-                                            elseif($room['room_status'] == 'On Renovation')
-                                                echo "table-warning";
-                                            ?>">
+                                <tr>
                                     <td><?= $room['name'] ?></td>    
                                     <td><?= $room['floor'] ?></td>       
                                     <td><?= $room['room_type'] ?></td>  
-                                    <td><?= $room['room_status'] ?></td>
+                                    <td class="<?php 
+                                            if($room['room_status'] == 'Not Available')
+                                                echo "text-danger";
+                                            elseif($room['room_status'] == 'On Renovation')
+                                                echo "text-warning";
+                                            ?>"><strong><?= $room['room_status'] ?></strong></td>
                                     <td>
-                                        <a href="<?= base_url().'/room/edit/'.$room['room_id'] ?>" class="btn btn-outline-primary">Update</a>
-                                        
-                                        <button type="button" value="<?= $room['room_id']?>" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $room['name']?>">Delete</button>
+                                        <div class="btn-group" role="group">
+                                            <a href="<?= base_url().'/room/edit/'.$room['room_id'] ?>" class="btn btn-sm btn-warning">Update</a>
+                                            <button type="button" value="<?= $room['room_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="<?= $room['name']?>">Delete</button>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endforeach; ?>

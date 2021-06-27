@@ -42,7 +42,7 @@
                                         <div class="card-body">
                                         
                                             <?php if(count($permunselected) > 0 ) : ?>
-                                                <table id="permunselected_table"class="table">
+                                                <table id="permunselected_table"class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th>Name</th>
@@ -54,7 +54,7 @@
                                                         <tr>
                                                             <td><?= $row['perm_name']?></td>
                                                             <td>
-                                                                <a href="<?= base_url().'/role/addPermissionToRole/'.$role['role_id'].'/'.$row['perm_id']?>" class="btn btn-primary me-2">Add</a>
+                                                                <a href="<?= base_url().'/role/addPermissionToRole/'.$role['role_id'].'/'.$row['perm_id']?>" class="btn btn-sm  btn-primary me-2">Add</a>
                                                             </td>
                                                         </tr>
                                                         <?php endforeach; ?>
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="card-body">
                                         <?php if(count($permselected) > 0 ) : ?>
-                                                <table id="permselected_table"class="table">
+                                                <table id="permselected_table" class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th>Name</th>
@@ -93,7 +93,7 @@
                                                         <tr>
                                                             <td><?= $row['perm_name']?></td>
                                                             <td>
-                                                                <a href="<?= base_url().'/role/removePermissionToRole/'.$role['role_id'].'/'.$row['rope_id']?>" class="btn btn-danger me-2">Remove</a>
+                                                                <a href="<?= base_url().'/role/removePermissionToRole/'.$role['role_id'].'/'.$row['rope_id']?>" class="btn btn-sm btn-danger me-2">Remove</a>
                                                             </td>
                                                         </tr>
                                                         <?php endforeach; ?>
