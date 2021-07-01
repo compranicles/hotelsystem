@@ -42,7 +42,7 @@
                                         <div class="card-body">
                                         
                                             <?php if(count($permunselected) > 0 ) : ?>
-                                                <table id="permunselected_table"class="table table-striped table-hover table-responsive">
+                                                <table id="permunselected_table"class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th>Name</th>
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="card-body">
                                         <?php if(count($permselected) > 0 ) : ?>
-                                                <table id="permselected_table" class="table table-striped table-hover table-responsive">
+                                                <table id="permselected_table" class="table table-striped table-hover">
                                                     <thead>
                                                         <tr>
                                                             <th>Name</th>

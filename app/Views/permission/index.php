@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         <?php if(count($permissions)>0): ?>
-                            <table id="permission_table" class="table table-striped table-hover table-responsive">
+                            <table id="permission_table" class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Name</th>

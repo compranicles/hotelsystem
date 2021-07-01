@@ -31,7 +31,7 @@
                                     </div>
                                 </div>
                         <?php if(count($roles)>0): ?>
-                            <table id="role_table"class="table table-striped table-hover table-responsive">
+                            <table id="role_table"class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th>Name</th>
