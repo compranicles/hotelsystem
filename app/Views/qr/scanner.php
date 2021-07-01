@@ -59,7 +59,7 @@
         //window.open(base_url().'/customercheck/'.c, "_blank");
         console.log(c);
         var url = "/customercheck/confirm/";
-
+//not fixed
         $.ajax({
             type: "POST",
             url: url,
