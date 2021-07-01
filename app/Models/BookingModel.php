@@ -40,6 +40,10 @@ class BookingModel extends Model{
                 WHERE e.booking_id = ".$bookingId.""   
         );
       
+        return $query->getResultArray();
+    }
+
+
     public function getUsingId($id){
         $query = $this->db->query("
             SELECT DISTINCT		

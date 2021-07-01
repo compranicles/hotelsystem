@@ -11,7 +11,7 @@
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
-
+    <?php $session = \Config\Services::session(); ?>
 </head>
 <body>
     <!--<div>
@@ -25,52 +25,57 @@
     
 
     <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <video id="preview"></video>
+        <div class="row">
+            <div class="col-md-6">
+                <video id="preview"></video>
+                <?php if ($session->getTempdata('success')): ?>
+                    <div class="alert alert-success" role="alert">
+                        <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success'); ?>
+                    </div>
+                    <?php elseif ($session->getTempdata('error')): ?>
+                    <div class="alert alert-danger" role="alert">
+                    <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error'); ?>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
-        <?php if (isset($checkMessage)) {?>
-    <div class="alert alert-success col-md-6" role="alert">
-      <?= $checkMessage; ?>
-    </div>
-    <?php } ?>
-        </div>
-      </div>
     </div>
 
-    <script>
-      let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-      Instascan.Camera.getCameras().then(function(cameras) {
+<script>
+    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+    Instascan.Camera.getCameras().then(function(cameras) {
         if(cameras.length > 0) {
           scanner.start(cameras[0]);
         }else {
           alert('No cameras found');
         }
 
-      }).catch(function(e){
-        console.error(e);
-      });
+    }).catch(function(e){
+      console.error(e);
+    });
 
-      scanner.addListener('scan', function(c){
+    scanner.addListener('scan', function(c){
         //document.getElementById('text').value=c;
         //document.forms[0].target = "_blank";
         //document.forms[0].submit(); ///triggered when scanned; get value from input
         //window.open(base_url().'/customercheck/'.c, "_blank");
         console.log(c);
-        var url = "/customercheck/confirm/";
-//not fixed
+        var url = "/customercheck/confirm";
+        var booking_id = c;
+        //not fixed
         $.ajax({
             type: "POST",
             url: url,
             //dataType: "json",
-            data: c,
+            data: {booking_id: booking_id},
             success: function(result) {
                 window.location = result;
-            }
-        });
+            },
         //window.location.href = url;
 
-      });
+        });
+
+    });
 
 
     </script>

@@ -9,7 +9,7 @@ class CustomerCheck extends BaseController
 {
     public function __construct() {
         helper('form');
-        //$this->session = \Config\Services::session();
+        $this->session = \Config\Services::session();
         $this->showModel = new ShowModel();
         $this->bookingModel = new BookingModel();
     }
@@ -23,39 +23,44 @@ class CustomerCheck extends BaseController
 
         if ($this->request->getMethod() === "post"){ 
 
-            $bookingPass = $this->request->getVar('c');
+            $bookingPass = $this->request->getVar('booking_id');
+        
+            $booking = $this->bookingModel->where('booking_id', $bookingPass)->findAll();
 
-        $booking = $this->bookingModel->where('booking_id', $bookingPass)->findAll();
-        if (count($booking) == 0) {
-            $data['checkMessage'] = "Reservation not found.";
-            return view('qr/scanner', $data);
-        }
+            if (count($booking) == 0) {
+                $this->session->setTempdata('error', 'Reservation not Found', 3);
+                echo base_url()."/customercheck";             
+            }
 
-        $bookingPassId = $this->showModel->where('booking_id', $booking[0]['booking_id'])->findAll();
+            $bookingPassId = $this->showModel->where('booking_id', $booking[0]['booking_id'])->findAll();
 
-        if ((count($bookingPassId) <= 0)) {
-            $dataToInsert = [
-                'date_checked_in' =>  date("Y-m-d\TH:i:s"),
-                'booking_id' => $booking[0]['booking_id']
-            ];
+            if ((count($bookingPassId) <= 0)) {
+                $dataToInsert = [
+                    'date_checked_in' =>  date("Y-m-d\TH:i:s"),
+                    'booking_id' => $booking[0]['booking_id']
+                ];
 
-            $data['checkMessage'] = "Checked-in successfully!";
+                
 
-            if ($this->showModel->save($dataToInsert) === true) {
-                return view('qr/scanner', $data);
+                if ($this->showModel->save($dataToInsert) === true) {
+                    $this->session->setTempdata('success', 'Checked-in successfully!', 3);
+                    echo base_url()."/customercheck";
+                }
+            }
+
+            elseif ((count($bookingPassId) > 0) && (!($bookingPassId[0]['date_checked_in'] == null)) && ($bookingPassId[0]['date_checked_out'] == null)) {
+                echo base_url().'/payment/checkout/'.$bookingPassId[0]['booking_id'];
+            }
+
+            else {    
+                $this->session->setTempdata('error', 'Invalid: Transaction has been ended!', 3);      
+                echo base_url()."/customercheck";
             }
         }
-
-        elseif ((count($bookingPassId) > 0) && (!($bookingPassId[0]['date_checked_in'] == null)) && ($bookingPassId[0]['date_checked_out'] == null)) {
-            echo redirect()->to(base_url().'/payment/checkout/'.$bookingPassId[0]['booking_id']);
-        }
-
-        else {
-            $data['checkMessage'] = "Invalid: Transaction has been ended!";
-            return view('qr/scanner', $data);
-        //echo '<h3>Invalid: Transaction has been ended!</h3>';
-        }
     }
+
+    public function nice(){
+
     }
 
     /*public function index() {
