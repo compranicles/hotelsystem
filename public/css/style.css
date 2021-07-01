@@ -99,7 +99,7 @@
 
 .header
 {
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -170,3 +170,35 @@
     color: rgb(175, 54, 54);
     font-size: 5em;
 }
+
+.logo-forpay {
+    width: 120px;
+    height: 120px;
+    display: block;
+}
+
+.reserve_card {
+    display: block;
+    align-self: center;
+}
+
+.amount {
+    text-align:right;
+    padding-right: 63px;
+}
+
+.name_payment {
+    font-weight: bold;
+}
+
+.tab_dates {
+    text-align: right;
+}
+
+.form_select_paymentType {
+    width: 200px;
+    align-self: flex-end;
+    margin-right: 40px;
+}
+
+
