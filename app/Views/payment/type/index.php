@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                     <?php if(count($payment_types)>0): ?>
-                        <table id="payment_type_table" class="table table-striped table-hover">
+                        <table id="payment_type_table" class="table table-striped table-hover table-responsive">
                             <thead>
                                 <tr>
                                     <th>Name</th>

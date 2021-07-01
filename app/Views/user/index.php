@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <?php if(count($users) > 0): ?>
-                        <table id="users_table" class="table table-striped table-hover">
+                        <table id="users_table" class="table table-striped table-hover table-responsive">
                             <thead>
                                 <tr>
                                     <th>User Id</th>

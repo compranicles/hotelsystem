@@ -24,7 +24,7 @@
                         </div>
                     <?php endif; ?>
                     <?php if(count($reservations) > 0): ?>
-                        <table id="reservation_table" class="table table-striped table-hover">
+                        <table id="reservation_table" class="table table-striped table-hover table-responsive">
                             <thead>
                                 <tr>
                                     <th>Reservation ID</th>
