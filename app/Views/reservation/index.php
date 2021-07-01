@@ -13,8 +13,7 @@
                     </h4>
                 </div>
                 <div class="card-body">
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                     <?php if ($session->getTempdata('success')): ?>
                         <div class="alert alert-success" role="alert">
                             <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success'); ?>
@@ -81,9 +80,7 @@
                             </tbody>
                         </table>
                     <?php endif?>
-=======
-=======
->>>>>>> parent of ce5c035 (reservation view for admin/staff)
+
                     <table id="reservation_table" class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -111,10 +108,6 @@
                             </tr>
                         </tbody>
                     </table>
-<<<<<<< HEAD
->>>>>>> parent of ce5c035 (reservation view for admin/staff)
-=======
->>>>>>> parent of ce5c035 (reservation view for admin/staff)
                 </div>
             </div>
         </div>
