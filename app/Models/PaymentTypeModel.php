@@ -17,12 +17,4 @@ class PaymentTypeModel extends Model{
     protected $createdField = 'date_created';
     protected $updatedField = 'date_modified';
     protected $deletedField = 'date_deleted';
-
-    public function getPaymentType() {
-        $builder = $this->db->table('payment_types');
-        $builder->select('payment_types.payment_type_id, payment_types.name');
-        $builder->where('date_deleted', null);
-        $query = $builder->get();
-        return $query->getResultArray();
-    }
 }
