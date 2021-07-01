@@ -13,7 +13,6 @@
                     </h4>
                 </div>
                 <div class="card-body">
-<<<<<<< HEAD
 
                     <?php if ($session->getTempdata('success')): ?>
                         <div class="alert alert-success" role="alert">
@@ -82,8 +81,6 @@
                         </table>
                     <?php endif?>
 
-=======
->>>>>>> parent of ce5c035 (reservation view for admin/staff)
                     <table id="reservation_table" class="table table-striped table-hover">
                         <thead>
                             <tr>
