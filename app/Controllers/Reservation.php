@@ -30,7 +30,6 @@ class Reservation extends BaseController
 		date_default_timezone_set('Asia/Manila');
 		$data['room_types'] = $this->roomType->findAll();
 
-
 		if($this->request->getMethod()=='post'){
 			
 			$start_date = $this->request->getVar('arrival_date');
