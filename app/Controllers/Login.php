@@ -7,6 +7,7 @@ class Login extends BaseController{
 
     public function __construct() {
         $this->userModel = new UserModel();
+        $this->session = \Config\Services::session();
     }
 
     public function index(){
@@ -22,7 +23,7 @@ class Login extends BaseController{
                 if(password_verify($password, $userdata[0]['password'])){
                     //email and password correct
                     //more session code here
-                    $this->session->set('logged_in', $userdata[0]['user_id']);
+                    //$this->session->set('logged_in', $userdata[0]['user_id']);
                     return redirect()->to(base_url().'/user/dashboard');
                 }
                 else{
