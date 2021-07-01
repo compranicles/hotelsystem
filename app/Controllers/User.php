@@ -19,12 +19,7 @@ class User extends BaseController{
     }
 
     public function dashboard(){
-        if (!session()->has('logged_in')) {
-            $this->session->setTempdata('no_pass_db', 'Login First!');
-            return redirect()->to(base_url().'/login');
-        } else {
-            return view('user/dashboard');
-        }
+        return view('user/dashboard');
     }
 
     public function add(){
@@ -218,9 +213,4 @@ class User extends BaseController{
         return view('user/changepassword', $data); 
     }
 
-    public function logout() {
-        $this->session->remove('logged_in');
-        $this->session->destroy();
-        return redirect()->to(base_url().'/login');
-    }
 }
