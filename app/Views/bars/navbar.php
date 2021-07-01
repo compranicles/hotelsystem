@@ -1,9 +1,7 @@
-<?php if (session()->has('logged_in')) { ?>
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand mb-0 h1" href="<?= base_url()?>">
-            <img src="/cavella_logo.png" alt="Cavella Hotel" width="70" height="65">
+            <img src="/cavella_logo.png" alt="Cavella Hotel" width="60" height="48">
             Cavella Hotel
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,7 +16,5 @@
         </div>
     </div>
 </nav>
-
-<?php } ?>
 
 <?= $this->include('bars/sidebar')?>

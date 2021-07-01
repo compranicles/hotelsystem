@@ -26,7 +26,7 @@
                                                             <div class="card">
                                                                 <div class="row g-0">
                                                                     <div class="col-md-3">
-                                                                        <img src="<?= "/uploads/".$room['room_photo']?>" alt="<?= "Room-".$room['room_name']?>" width="300px" height="200px" class="card-img-top rounded-start">
+                                                                        <img src="<?= "/uploads/".$room['room_photo']?>" alt="<?= "Room-".$room['room_name']?>" width="300px" height="200px" class="rounded-start">
                                                                     </div>
                                                                     <div class="col-md-7">
                                                                         <div class="card-body">

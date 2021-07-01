@@ -1,5 +1,3 @@
-<?php if (session()->has('logged_in')) { ?>
-
 <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="admin" aria-labelledby="adminLabel">
     <div class="offcanvas-header">
         <h3 class="offcanvas-title" id="adminLabel">Hello User!</h3>
@@ -20,9 +18,7 @@
             <a href="<?= base_url().'/permission'?>" class="list-group-item list-group-item-action">Permissions</a>
             <a href="" class="list-group-item list-group-item-action">Update Personal Info</a>
             <a href="" class="list-group-item list-group-item-action">Change Password</a>
-            <a href="<?= base_url().'/user/logout' ?>" class="list-group-item list-group-item-action list-group-item-danger">Log Out</a>
+            <a href="" class="list-group-item list-group-item-action list-group-item-danger">Log Out</a>
         </div>
     </div>
 </div>
-
-<?php } ?>

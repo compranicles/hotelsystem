@@ -3,11 +3,9 @@
 <?= $this->section('content')?>
 <?php $session = \Config\Services::session();?>
 <?= $this->include('bars/navbar')?>
-
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-4">
-
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="row">
