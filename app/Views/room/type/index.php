@@ -34,7 +34,7 @@
                             </div>
                         </div>
                     <?php if(count($room_types)>0): ?>
-                        <table id="room_type_table" class="table table-striped">
+                        <table id="room_type_table" class="table table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th>Name</th>

@@ -147,10 +147,6 @@ class User extends BaseController{
 
         $userModel = new UserModel();
 
-        if (!session()->has('logged_in')) {
-            return redirect()->to(base_url().'/login');
-        }
-
         $data = [];
         if ($this->request->getMethod() == 'post') {
             $rules = [

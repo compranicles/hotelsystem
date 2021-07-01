@@ -5,6 +5,8 @@ use App\Models\RoomTypeModel;
 use App\Models\RoomModel;
 use App\Models\ReservationModel;
 use App\Models\BookingModel;
+use App\Models\CancelledModel;
+use CodeIgniter\I18n\Time;
 
 class Reservation extends BaseController
 {
@@ -13,12 +15,15 @@ class Reservation extends BaseController
         helper('form');
 		$this->roomType = new RoomTypeModel();
 		$this->room = new RoomModel();
+		$this->session = \Config\Services::session();
     }
 
 	public function index()
 	{
 		date_default_timezone_set('Asia/Manila');
-		return view('reservation/index');
+		$bookModel = new BookingModel();
+		$data['reservations'] = $bookModel->getUsingId(17); // temporary user_id
+		return view('reservation/index', $data);
 	}
 
 	public function showroom(){
@@ -81,7 +86,39 @@ class Reservation extends BaseController
 	}
 
 	public function success($bookingId){
-		$data['bookingcode'] = password_hash($bookingId, PASSWORD_DEFAULT);
+		$data['bookingcode'] = $bookingId;
 		return view('reservation/success', $data);
+	}
+
+	public function cancel($reservId){
+		$cancelModel = new CancelledModel();
+		$cancelreservData = [
+			'cancellation_date' => Time::now('Asia/Manila', 'en_US'),
+			'reservation_id' => $reservId,
+			'user_id' => '17', // temporary user id
+		];
+		if($cancelModel->save($cancelreservData) === true){
+			$this->session->setTempdata('success', 'Cancellation Successful', 3);
+			return redirect()->to(base_url().'/reservation');
+		}
+		else{
+			$this->session->setTempdata('error', 'Cancellation Failed', 3);
+			return redirect()->to(base_url().'/reservation');
+		}
+	}
+
+
+	public function view(){
+		$bookModel = new BookingModel();
+		$cancelModel = new CancelledModel();
+		$data['booked'] = $bookModel->getAllData();
+		$data['cancelled'] = $cancelModel->getAllData();
+		return view('reservation/view', $data);
+	}
+
+	public function getInfo($reservation_id){
+		$resModel = new ReservationModel();
+		echo json_encode($resModel->getInfo($reservation_id));
+		exit;
 	}
 }
