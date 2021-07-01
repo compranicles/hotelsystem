@@ -1,3 +1,5 @@
+<?php if (session()->has('logged_in')) { ?>
+
 <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="admin" aria-labelledby="adminLabel">
     <div class="offcanvas-header">
         <h3 class="offcanvas-title" id="adminLabel">Hello User!</h3>
@@ -22,3 +24,5 @@
         </div>
     </div>
 </div>
+
+<?php } ?>

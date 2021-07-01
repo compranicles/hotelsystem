@@ -176,16 +176,18 @@ class User extends BaseController{
                 $current_pw = $this->request->getVar('current_pw');
                 $new_pw = password_hash($this->request->getVar('new_pw'), PASSWORD_DEFAULT);
 
-                $userId = $this->session->get('logged_in');
+                //session PLEASE DELETE
+                //$userId = $this->session->get('logged_in');
                 $userdata = $userModel->getPassword($userId);
 
                 $data = [
                     'password' => $new_pw
                 ];
 
+                // ID = 7 temporary
                 if ($userdata) {
                     if (password_verify($current_pw, $userdata['password'])) {
-                        if ($userModel->update($userId, $data)) {
+                        if ($userModel->update(7, $data)) {
                             $this->session->setTempdata('success_chpw', 'Password Changed Successfully!', 3);
                             return redirect()->to(base_url().'/user/changepassword');
                         } else {
@@ -206,4 +208,5 @@ class User extends BaseController{
         }
         return view('user/changepassword', $data); 
     }
+
 }

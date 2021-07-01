@@ -7,6 +7,7 @@ class Login extends BaseController{
 
     public function __construct() {
         $this->userModel = new UserModel();
+        $this->session = \Config\Services::session();
     }
 
     public function index(){
