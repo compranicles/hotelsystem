@@ -1,7 +1,6 @@
 <?= $this->extend('template/layout')?>
 
 <?= $this->section('content');?>
-<?php $session = \Config\Services::session(); ?>
 <?= $this->include('bars/navbar')?>
 <div class="container mt-5">
     <div class="row">
@@ -10,10 +9,11 @@
                 <div class="card-header">
                     <h4>
                         Reservations
-                        <a href="<?= base_url()?>" class="btn btn-success float-end">Add New Reservation</a>
+                        <a href="" class="btn btn-success float-end">Add New Reservation</a>
                     </h4>
                 </div>
                 <div class="card-body">
+<<<<<<< HEAD
                     <?php if ($session->getTempdata('success')): ?>
                         <div class="alert alert-success" role="alert">
                             <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success'); ?>
@@ -80,90 +80,38 @@
                             </tbody>
                         </table>
                     <?php endif?>
+=======
+                    <table id="reservation_table" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Room Number</th>
+                                <th>Arrival Date</th>
+                                <th>Departure Date</th>
+                                <th>Number of Guests</th>
+                                <th>Date Reserved</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <a href="" class="btn btn-sm btn-primary">QR Code</a>
+                                        <a href="" class="btn btn-sm btn-danger">Cancel</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+>>>>>>> parent of ce5c035 (reservation view for admin/staff)
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="qrcode" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="qrcodeLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="qrcodeLabel">QR Code</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="text-center mx-5 my-5">
-                    <img src="" id="qrimage" alt="" title="" class="img-thumbnail mb-3"/>
-                    <br>
-                    <a href="" id="qrlink" target="_blank" rel="noopener noreferrer" id="download" class="btn btn-success" download>Save Code</a>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h5 class="modal-title" id="cancelModalLabel">Confirm Delete</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="icon text-center">
-            <i class="bi bi-exclamation-circle danger"></i>
-            </div>
-            <p></p>
-        <div class="modal-body2">
-            <p>This action is irreversible. Do you want to continue?</p>
-        </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-light" data-bs-dismiss="modal">No</button>
-            <button type="button" class="confirm_del btn btn-danger" data-bs-dismiss="modal">Yes</button>
-        </div>
-        </div>
-    </div>
-</div>
-<script>
-    $(document).ready( function () {
-        $('#reservation_table').DataTable({
-            "order":[[5, 'desc']],
-        });
-    });
-</script>
-
-<script>
-    var qrcodeModal = document.getElementById('qrcode');
-    qrcodeModal.addEventListener('show.bs.modal', function(e) {
-        var button = e.relatedTarget;
-        var bookingId = button.getAttribute('data-bs-qrcode');
-        document.getElementById('qrimage').src="https://api.qrserver.com/v1/create-qr-code/?data="+bookingId+"&amp;size=150x150&format=png";
-        document.getElementById('qrlink').href="https://api.qrserver.com/v1/create-qr-code/?data="+bookingId+"&amp;size=300x300&format=png";
-    });
-</script>
-
-<script>
-    var exampleModal = document.getElementById('cancelModal')
-    exampleModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget
-        var id = button.getAttribute('value')
-        $('.confirm_del').click(function (e) {
-            e.preventDefault();
-
-            var url = "/reservation/cancel/" + id
-            $.ajax({
-                url: url,
-                success: function () {
-                    window.location = '/reservation'
-                } 
-            })
-        })   
-    })
-</script>
 <?= $this->endSection()?>
