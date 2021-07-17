@@ -10,6 +10,9 @@ class Register extends BaseController{
     }
 
     public function index(){
+        if($this->session->has('logged_in')){
+            return redirect()->to(base_url().'/user/dashboard');
+        }
         if($this->request->getMethod()=='post'){ 
             $data = [
                 'first_name' => $this->request->getVar('first_name'),

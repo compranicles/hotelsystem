@@ -1,7 +1,11 @@
 <?= $this->extend('template/layout'); ?>
 
 <?= $this->section('content'); ?>
+<?php if(session()->has('logged_in')) : ?>
+<?= $this->include('bars/navbar')?>
+<?php else: ?>
 <?= $this->include('homepage/header')?>
+<?php endif;?>
 
 <section class="hero">
     <div class="hero-content">

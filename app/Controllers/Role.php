@@ -13,90 +13,112 @@ class Role extends BaseController{
     }
 
     public function index() {
-        $data['roles'] = $this->roleModel->findAll();
-        return view('role/index', $data);
+        if($this->session->has('logged_in')){
+            $data['roles'] = $this->roleModel->findAll();
+            return view('role/index', $data);
+        }
+        return view('errors/html/error_404');
     }
     
     public function add(){
+        if($this->session->has('logged_in')){
+            if($this->request->getMethod() == 'post'){
+                $data = [
+                    'name' => $this->request->getVar('name'),
+                    'description' => $this->request->getVar('description'),
+                ];
 
-        if($this->request->getMethod() == 'post'){
-            $data = [
-                'name' => $this->request->getVar('name'),
-                'description' => $this->request->getVar('description'),
-            ];
-
-            if($this->roleModel->save($data) === true){
-                $this->session->setTempdata('success_role', 'Added Successfully!', 3);
-                return redirect()->to(base_url().'/role');
-            } else {
-                $this->session->setTempdata('error_role', 'Adding Failed!', 3);
+                if($this->roleModel->save($data) === true){
+                    $this->session->setTempdata('success_role', 'Added Successfully!', 3);
+                    return redirect()->to(base_url().'/role');
+                } else {
+                    $this->session->setTempdata('error_role', 'Adding Failed!', 3);
+                }
             }
+        return view('role/add');
         }
-       return view('role/add');
+        return view('errors/html/error_404');
     }
 
     public function edit($id=null){
-        
-        $data['role'] = $this->roleModel->find($id);
+        if($this->session->has('logged_in')){
+            $data['role'] = $this->roleModel->find($id);
 
-        if($this->request->getMethod() == 'post'){
-            $data = [
-                'name' => $this->request->getVar('name'),
-                'description' => $this->request->getVar('description'),
-            ];
+            if($this->request->getMethod() == 'post'){
+                $data = [
+                    'name' => $this->request->getVar('name'),
+                    'description' => $this->request->getVar('description'),
+                ];
 
-            if($this->roleModel->update($id, $data) === true){
-                $this->session->setTempdata('success_role', 'Updated Successfully!', 3);
-                return redirect()->to(base_url().'/role');
-            } else {
-                $this->session->setTempdata('error_role', 'Update Failed!', 3);
+                if($this->roleModel->update($id, $data) === true){
+                    $this->session->setTempdata('success_role', 'Updated Successfully!', 3);
+                    return redirect()->to(base_url().'/role');
+                } else {
+                    $this->session->setTempdata('error_role', 'Update Failed!', 3);
+                }
             }
+            return view('role/edit', $data);
         }
-        return view('role/edit', $data);
+        return view('errors/html/error_404');
     }
 
     public function delete($id=null){
-        if($this->roleModel->where('role_id', $id)->delete()){
-            $this->session->setTempdata('success_role', 'Deleted Successfully!', 3);
-            return redirect()->to(base_url().'/role');
-        } else {
-            $this->session->setTempdata('error_role', 'Delete Failed!', 3);
+        if($this->session->has('logged_in')){
+            if($this->roleModel->where('role_id', $id)->delete()){
+                $this->session->setTempdata('success_role', 'Deleted Successfully!', 3);
+                return redirect()->to(base_url().'/role');
+            } else {
+                $this->session->setTempdata('error_role', 'Delete Failed!', 3);
+            }
         }
+        return view('errors/html/error_404');
+
     }
 
     public function permission($id=null) {
-        
-        $permission = new PermissionModel();
-        $roleperm = new RolePermModel();
-        $data['role'] = $this->roleModel->find($id);
-        $data['permunselected'] = $permission->getUnselected($id);
-        $data['permselected'] = $roleperm->getSelected($id);
-        return view('role/selectpermission', $data);
+        if($this->session->has('logged_in')){
+            $permission = new PermissionModel();
+            $roleperm = new RolePermModel();
+            $data['role'] = $this->roleModel->find($id);
+            $data['permunselected'] = $permission->getUnselected($id);
+            $data['permselected'] = $roleperm->getSelected($id);
+            return view('role/selectpermission', $data);
+        }
+        return view('errors/html/error_404');
+
     }
 
     public function addPermissionToRole($role_id= null, $permission_id= null){
-        $roleperm = new RolePermModel();
-        $data = [
-            'role_id' => $role_id,
-            'permission_id' => $permission_id
-        ];
-        if($roleperm->save($data) === true){
-            $this->session->setTempdata('success_perm_role', 'Added Successfully!', 3);
-            return redirect()->to(base_url().'/role/permission/'.$role_id);
-        } else {
-            $this->session->setTempdata('error_perm_role', 'Adding Failed!', 3);
-            return redirect()->to(base_url().'/role/permission/'.$role_id);
+        if($this->session->has('logged_in')){
+            $roleperm = new RolePermModel();
+            $data = [
+                'role_id' => $role_id,
+                'permission_id' => $permission_id
+            ];
+            if($roleperm->save($data) === true){
+                $this->session->setTempdata('success_perm_role', 'Added Successfully!', 3);
+                return redirect()->to(base_url().'/role/permission/'.$role_id);
+            } else {
+                $this->session->setTempdata('error_perm_role', 'Adding Failed!', 3);
+                return redirect()->to(base_url().'/role/permission/'.$role_id);
+            }
         }
+        return view('errors/html/error_404');
+
     }
 
     public function removePermissionToRole($role_id= null, $rope_id= null){
-        $roleperm = new RolePermModel();
-        if($roleperm->where('role_perm_id', $rope_id)->delete()){
-            $this->session->setTempdata('success_perm_role', 'Removed Successfully!', 3);
-            return redirect()->to(base_url().'/role/permission/'.$role_id);
-        } else {
-            $this->session->setTempdata('error_perm_role', 'Removing Failed!', 3);
-            return redirect()->to(base_url().'/role/permission/'.$role_id);
+        if($this->session->has('logged_in')){
+            $roleperm = new RolePermModel();
+            if($roleperm->where('role_perm_id', $rope_id)->delete()){
+                $this->session->setTempdata('success_perm_role', 'Removed Successfully!', 3);
+                return redirect()->to(base_url().'/role/permission/'.$role_id);
+            } else {
+                $this->session->setTempdata('error_perm_role', 'Removing Failed!', 3);
+                return redirect()->to(base_url().'/role/permission/'.$role_id);
+            }
         }
+        return view('errors/html/error_404');
+
     }
 }

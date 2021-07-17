@@ -71,7 +71,7 @@
             success: function(result) {
                 window.location = result;
             },
-        //window.location.href = url;
+          //window.location.href = url;
 
         });
 
