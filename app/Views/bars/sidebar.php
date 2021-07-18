@@ -10,7 +10,7 @@
             <h5>Options:</h5>
         </div>
         <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action">Scan QR Code</a>
+            <a href="<?= base_url().'/customercheck'?>" class="list-group-item list-group-item-action">Check Reservation</a>
             <a href="<?= base_url().'/report'?>" class="list-group-item list-group-item-action">Reports</a>
             <a href="<?= base_url().'/reservation'?>" class="list-group-item list-group-item-action">Reservations</a>
             <a href="#" class="list-group-item list-group-item-action">Payments</a>
