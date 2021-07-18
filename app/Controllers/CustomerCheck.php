@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Models\ShowModel;
 use App\Models\BookingModel;
-use App\Models\PaymentTypeModel;
 
 class CustomerCheck extends BaseController
 {

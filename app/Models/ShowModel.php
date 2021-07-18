@@ -24,8 +24,6 @@ class ShowModel extends Model {
         ");
         return $query->getResultArray();
     }
-
-
 }
 
 ?>
