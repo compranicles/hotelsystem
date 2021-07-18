@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\RoomTypeModel;
 use App\Models\RoomModel;
-use App\Models\ReservationModel;
-use App\Models\BookingModel;
-use App\Models\CancelledModel;
 use CodeIgniter\I18n\Time;
+use App\Models\BookingModel;
+use App\Models\RoomTypeModel;
+use App\Models\CancelledModel;
+use App\Models\ReservationModel;
+use App\Controllers\PermissionChecker;
 
 class Reservation extends BaseController
 {
@@ -15,15 +16,21 @@ class Reservation extends BaseController
         helper('form');
 		$this->roomType = new RoomTypeModel();
 		$this->room = new RoomModel();
-		$this->session = \Config\Services::session();
+		$this->permcheck = new PermissionChecker();
     }
 
 	public function index()
 	{
-		date_default_timezone_set('Asia/Manila');
-		$bookModel = new BookingModel();
-		$data['reservations'] = $bookModel->getUsingId(17); // temporary user_id
-		return view('reservation/index', $data);
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'Reservation')){
+			date_default_timezone_set('Asia/Manila');
+			$bookModel = new BookingModel();
+			$data['reservations'] = $bookModel->getUsingId($this->session->get('id'));
+			return view('reservation/index', $data);
+		}
+		elseif($this->session->has('logged_in')){
+			return redirect()->to(base_url().'/reservation/view');
+		}
+		return view('errors/html/error_404');
 	}
 
 	public function showroom(){
@@ -56,69 +63,112 @@ class Reservation extends BaseController
 				return view('reservation/showroom',$data);
 			}
 		}
-		return redirect()->to(base_url());
+		return view('errors/html/error_404');
 	}
 
 	public function reserve($roomid, $startdate, $enddate, $guests){
-		$data['room'] = $this->room->getDataUsingId($roomid);
-		$data['startdate'] = $startdate;
-		$data['enddate'] = $enddate;
-		$data['guests'] = $guests;
-		return view('reservation/form', $data);
-	}
-
-	public function save($roomid, $startdate, $enddate, $guests){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationReserve')){
+			$data['room'] = $this->room->getDataUsingId($roomid);
+			$data['startdate'] = $startdate;
+			$data['enddate'] = $enddate;
+			$data['guests'] = $guests;
+			return view('reservation/form', $data);
+		}
 		$reservedata = [
 			'arrival_date' => $startdate,
 			'departure_date' => $enddate,
 			'no_of_guests' => $guests,
 			'room_id' => $roomid,
 		];
-		$resModel = new ReservationModel();
-		$bookModel = new BookingModel();
-		$reserve_id = $resModel->saveGetId($reservedata);
-		$bookingdata = [
-			'reservation_id' => $reserve_id,
-			'user_id' => '17', //temporary id
-		];
-		$bookingId = $bookModel->saveGetId($bookingdata);
-		return "/reservation/success/".$bookingId;
+		$this->session->set($reservedata);
+		$this->session->setTempdata('login_error', 'Login to Continue', 3);
+		return redirect()->to(base_url().'/login');
 	}
 
+	public function reservefses(){
+		if($this->session->has('logged_in') && $this->session->has('room_id') && $this->permcheck->check($this->session->get('id'),'ReservationReserve')){
+			$data = [
+				'startdate' => $this->session->get('arrival_date'),
+				'enddate' => $this->session->get('departure_date'),
+				'guests' => $this->session->get('no_of_guests'),
+				'room' => $this->room->getDataUsingId($this->session->get('room_id'))
+			];
+			$reservedata = [
+				'arrival_date', 'departure_date', 'no_of_guests', 'room_id'
+			];
+			$this->session->remove($reservedata);
+			return view('reservation/form', $data);
+		}
+		return view('errors/html/error_404');
+	}
+
+	public function save($roomid, $startdate, $enddate, $guests){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationSave')){
+			$reservedata = [
+				'arrival_date' => $startdate,
+				'departure_date' => $enddate,
+				'no_of_guests' => $guests,
+				'room_id' => $roomid,
+			];
+			$resModel = new ReservationModel();
+			$bookModel = new BookingModel();
+			$reserve_id = $resModel->saveGetId($reservedata);
+			$bookingdata = [
+				'reservation_id' => $reserve_id,
+				'user_id' => $this->session->get('id'),
+			];
+			$bookingId = $bookModel->saveGetId($bookingdata);
+			return "/reservation/success/".$bookingId;
+		}
+		return view('errors/html/error_404');
+	}
+
+
 	public function success($bookingId){
-		$data['bookingcode'] = $bookingId;
-		return view('reservation/success', $data);
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationSuccess')){
+			$data['bookingcode'] = $bookingId;
+			return view('reservation/success', $data);
+		}
+		return view('errors/html/error_404');
 	}
 
 	public function cancel($reservId){
-		$cancelModel = new CancelledModel();
-		$cancelreservData = [
-			'cancellation_date' => Time::now('Asia/Manila', 'en_US'),
-			'reservation_id' => $reservId,
-			'user_id' => '17', // temporary user id
-		];
-		if($cancelModel->save($cancelreservData) === true){
-			$this->session->setTempdata('success', 'Cancellation Successful', 3);
-			return redirect()->to(base_url().'/reservation');
+		if($this->session->has('logged_in')  && $this->permcheck->check($this->session->get('id'), 'ReservationCancel')){
+			$cancelModel = new CancelledModel();
+			$cancelreservData = [
+				'cancellation_date' => Time::now('Asia/Manila', 'en_US'),
+				'reservation_id' => $reservId,
+				'user_id' => $this->session->get('id'),
+			];
+			if($cancelModel->save($cancelreservData) === true){
+				$this->session->setTempdata('success', 'Cancellation Successful', 3);
+				return redirect()->to(base_url().'/reservation');
+			}
+			else{
+				$this->session->setTempdata('error', 'Cancellation Failed', 3);
+				return redirect()->to(base_url().'/reservation');
+			}
 		}
-		else{
-			$this->session->setTempdata('error', 'Cancellation Failed', 3);
-			return redirect()->to(base_url().'/reservation');
-		}
+		return view('errors/html/error_404');
 	}
 
 
 	public function view(){
-		$bookModel = new BookingModel();
-		$cancelModel = new CancelledModel();
-		$data['booked'] = $bookModel->getAllData();
-		$data['cancelled'] = $cancelModel->getAllData();
-		return view('reservation/view', $data);
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'ReservationView')){
+			$bookModel = new BookingModel();
+			$cancelModel = new CancelledModel();
+			$data['booked'] = $bookModel->getAllData();
+			$data['cancelled'] = $cancelModel->getAllData();
+			return view('reservation/view', $data);
+		}
+		return view('errors/html/error_404');
 	}
 
 	public function getInfo($reservation_id){
-		$resModel = new ReservationModel();
-		echo json_encode($resModel->getInfo($reservation_id));
-		exit;
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationGetInfo')){
+			$resModel = new ReservationModel();
+			echo json_encode($resModel->getInfo($reservation_id));
+			exit;
+		}
 	}
 }

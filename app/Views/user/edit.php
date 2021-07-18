@@ -94,7 +94,7 @@
 
     var passw = document.getElementById('password');
     var pass2 = document.getElementById('cpassword');
-    $("#email").prop("disabled", true);
+    $("#email").prop("readonly", true);
     $("#password").prop("disabled", true);
     $("#cpassword").prop("disabled", true);
     $(document).ready(function(){

@@ -22,4 +22,15 @@ class UserAccessModel extends Model{
         $query = $builder->get();
         return $query->getResultArray();
     }
+
+    public function getPermission($user_id){
+        $builder = $this->db->table('user_access');
+        $builder->select("permissions.name as permission_name");
+        $builder->join("roles", "roles.role_id = user_access.role_id");
+        $builder->join("role_perm", "role_perm.role_id = roles.role_id");
+        $builder->join("permissions", "permissions.permission_id = role_perm.permission_id");
+        $builder->where("user_access.user_id", $user_id);
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
 }

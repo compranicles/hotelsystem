@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>404 Page Not Found</title>
-
+<?= $this->extend('template/layout')?>
+<?= $this->section('content')?>
 	<style>
 		div.logo {
 			height: 200px;
@@ -14,13 +10,6 @@
 			top: 2rem;
 			left: 50%;
 			margin-left: -73px;
-		}
-		body {
-			height: 100%;
-			background: #fafafa;
-			font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-			color: #777;
-			font-weight: 300;
 		}
 		h1 {
 			font-weight: lighter;
@@ -67,8 +56,7 @@
 			color: #dd4814;
 		}
 	</style>
-</head>
-<body>
+	<?= $this->include('bars/navbar')?>
 	<div class="wrap">
 		<h1>404 - File Not Found</h1>
 
@@ -76,9 +64,11 @@
 			<?php if (! empty($message) && $message !== '(null)') : ?>
 				<?= nl2br(esc($message)) ?>
 			<?php else : ?>
-				Sorry! Cannot seem to find the page you were looking for.
+				<strong>
+					Sorry! Cannot seem to find the page you were looking for.
+					<a href="javascript:javascript:history.go(-1)">Please go back to the previous page!</a>  
+				</strong> 
 			<?php endif ?>
 		</p>
 	</div>
-</body>
-</html>
+<?= $this->endSection()?>

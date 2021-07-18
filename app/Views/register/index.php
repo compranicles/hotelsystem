@@ -1,6 +1,7 @@
 <?= $this->extend('template/layout');?>
 
 <?= $this->section('content');?>
+<?php $session = \Config\Services::session();?>
 <?= $this->include('bars/navbar')?>
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -8,6 +9,11 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h2 class="mb-4 text-center">Sign Up</h2>
+                    <?php if ($session->getTempdata('register_error')): ?>
+                        <div class="alert alert-danger" role="alert">
+                        <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('register_error'); ?>
+                        </div>
+                    <?php endif; ?>
                     <?= form_open('', 'id="user_form"') ?>
                         <div class="row">
                             <div class="col-md-6">
