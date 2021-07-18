@@ -1,6 +1,12 @@
 #preview {
-    margin-top: 100px;
-    width: 100%;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 40px;
+    /*margin-left: 2%; */
+    width: 75vw;
+    height: 50vh; 
+    display: block;
+    justify-content: center;
 }
 
 #qrform {
@@ -201,4 +207,15 @@
     margin-right: 40px;
 }
 
+.table-thead {
+    background-color: #e2af06;
+}
 
+.margin_in_checkTable {
+    margin-top: 40px;
+}
+
+.head {
+    display: block;
+    padding-top: 20px;
+}

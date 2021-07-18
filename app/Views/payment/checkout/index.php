@@ -3,10 +3,6 @@
 <?= $this->section('content');?>
 <?= $this->include('bars/navbar')?>
 
-<?php if (isset($message)): ?>
-    <h3 class="text-center">$message</h3>
-<?php endif; ?>
-
 <div class="container mt-3">
     <div class="row justify-content-center">
         <div class="col-md-5">
@@ -69,13 +65,13 @@
                 
                 <div class="form_select_paymentType">
                     <p><strong>Payment Type:</strong>
-                    <select class="form-select rounded-0 mt-1" name="payment_type" id="select_payment" required>
+                    <select class="validate[required] form-select rounded-0 mt-1" name="payment_type" id="select_payment">
                     <?php foreach ($forPaymentType as $type): ?>
-                        <option value="" selected disabled>--Select--</option>
+                        <option value="" selected disabled>---Select---</option>
                         <option value="<?= $type['payment_type_id']; ?>"><?= $type['name']; ?></option>
-                    
-                    <?php endforeach; ?>
+                
                     </select>
+                    <?php endforeach; ?>
                     </p>
                 </div>
                 
@@ -87,22 +83,23 @@
 
 <script>
 
-  //document.getElementById("select_payment").selectedIndex = -1;
   $(document).on('click', '#checkoutpay', function() {
 
-        var url = "/payment/checkoutpayment/";
-        //$.post(url, collect);
-        //window.location = url;
-        $.ajax({
-            type: "POST",
-            url: url,
-            //dataType: "json",
-            data: {booking_id: <?= $bookingPass; ?> , payment_type: $('#select_payment').val(), amount: <?= $total; ?>},
-            success: function(result) {
-                window.location = result;
-            }
-        });
-    //});
+        if(!$('#select_payment').val()){
+            alert('Please select a payment type.');
+        }
+
+        else{
+            var url = "/payment/checkoutpayment";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {booking_id: <?= $bookingPass; ?> , payment_type: $('#select_payment').val(), amount: <?= $total; ?>},
+                success: function(result) {
+                    window.location = result;
+                }
+            });
+        }
   });
 
 </script>
