@@ -57,6 +57,8 @@ class UserModel extends Model{
         return $result->getRowArray();
     }
 
+    
+
     /*public function getUserId($email) {
         //for change password
         $builder = $this->db->table('users');

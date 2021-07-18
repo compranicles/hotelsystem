@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 use App\Models\UserModel;
+use App\Models\UserAccessModel;
 
 class Register extends BaseController{
 
     public function __construct() {
-        $this->userModel = new UserModel();
     }
 
     public function index(){
@@ -14,6 +14,8 @@ class Register extends BaseController{
             return redirect()->to(base_url().'/user/dashboard');
         }
         if($this->request->getMethod()=='post'){ 
+            $userModel = new UserModel();
+            $userAccessModel = new UserAccessModel();
             $data = [
                 'first_name' => $this->request->getVar('first_name'),
                 'last_name' => $this->request->getVar('last_name'),
@@ -24,9 +26,18 @@ class Register extends BaseController{
                 'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
             ];
 
-            if($this->userModel->save($data) === true){
-                return redirect()->to(base_url().'/user/dashboard');
-            } else {
+            $userModel->insert($data);
+            $user_id = $userModel->getInsertID();
+            $roledata = [
+                'user_id' => $user_id,
+                'role_id' => '3'
+            ];
+                
+            if($userAccessModel->save($roledata) === true){
+                $this->session->setTempdata('register_success', 'Registration Success! Log In to Continue', 3);
+                return redirect()->to(base_url().'/login');
+            }
+            else{
                 $this->session->setTempdata('register_error', 'Registration Failed!', 3);
             }
         }

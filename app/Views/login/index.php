@@ -15,6 +15,11 @@
                             <h2 class="mb-5 text-center">Log In</h2>
                         </div>
                     </div>
+                    <?php if ($session->getTempdata('register_success')): ?>
+                        <div class="alert alert-success" role="alert">
+                        <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('register_success'); ?>
+                        </div>
+                    <?php endif; ?>
                     <?php if ($session->getTempdata('login_error')): ?>
                         <div class="alert alert-danger" role="alert">
                         <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('login_error'); ?>

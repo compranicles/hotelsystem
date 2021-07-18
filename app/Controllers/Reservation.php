@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Controllers;
-use App\Models\RoomTypeModel;
 use App\Models\RoomModel;
-use App\Models\ReservationModel;
-use App\Models\BookingModel;
-use App\Models\CancelledModel;
 use CodeIgniter\I18n\Time;
+use App\Models\BookingModel;
+use App\Models\RoomTypeModel;
+use App\Models\CancelledModel;
+use App\Models\ReservationModel;
+use App\Controllers\PermissionChecker;
 
 class Reservation extends BaseController
 {
@@ -15,14 +16,21 @@ class Reservation extends BaseController
         helper('form');
 		$this->roomType = new RoomTypeModel();
 		$this->room = new RoomModel();
+		$this->permcheck = new PermissionChecker();
     }
 
 	public function index()
 	{
-		date_default_timezone_set('Asia/Manila');
-		$bookModel = new BookingModel();
-		$data['reservations'] = $bookModel->getUsingId($this->session->get('id'));
-		return view('reservation/index', $data);
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'Reservation')){
+			date_default_timezone_set('Asia/Manila');
+			$bookModel = new BookingModel();
+			$data['reservations'] = $bookModel->getUsingId($this->session->get('id'));
+			return view('reservation/index', $data);
+		}
+		elseif($this->session->has('logged_in')){
+			return redirect()->to(base_url().'/reservation/view');
+		}
+		return view('errors/html/error_404');
 	}
 
 	public function showroom(){
@@ -59,7 +67,7 @@ class Reservation extends BaseController
 	}
 
 	public function reserve($roomid, $startdate, $enddate, $guests){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationReserve')){
 			$data['room'] = $this->room->getDataUsingId($roomid);
 			$data['startdate'] = $startdate;
 			$data['enddate'] = $enddate;
@@ -78,7 +86,7 @@ class Reservation extends BaseController
 	}
 
 	public function reservefses(){
-		if($this->session->has('logged_in') && $this->session->has('room_id')){
+		if($this->session->has('logged_in') && $this->session->has('room_id') && $this->permcheck->check($this->session->get('id'),'ReservationReserve')){
 			$data = [
 				'startdate' => $this->session->get('arrival_date'),
 				'enddate' => $this->session->get('departure_date'),
@@ -95,7 +103,7 @@ class Reservation extends BaseController
 	}
 
 	public function save($roomid, $startdate, $enddate, $guests){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationSave')){
 			$reservedata = [
 				'arrival_date' => $startdate,
 				'departure_date' => $enddate,
@@ -117,7 +125,7 @@ class Reservation extends BaseController
 
 
 	public function success($bookingId){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationSuccess')){
 			$data['bookingcode'] = $bookingId;
 			return view('reservation/success', $data);
 		}
@@ -125,7 +133,7 @@ class Reservation extends BaseController
 	}
 
 	public function cancel($reservId){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in')  && $this->permcheck->check($this->session->get('id'), 'ReservationCancel')){
 			$cancelModel = new CancelledModel();
 			$cancelreservData = [
 				'cancellation_date' => Time::now('Asia/Manila', 'en_US'),
@@ -146,7 +154,7 @@ class Reservation extends BaseController
 
 
 	public function view(){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'ReservationView')){
 			$bookModel = new BookingModel();
 			$cancelModel = new CancelledModel();
 			$data['booked'] = $bookModel->getAllData();
@@ -157,7 +165,7 @@ class Reservation extends BaseController
 	}
 
 	public function getInfo($reservation_id){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationGetInfo')){
 			$resModel = new ReservationModel();
 			echo json_encode($resModel->getInfo($reservation_id));
 			exit;

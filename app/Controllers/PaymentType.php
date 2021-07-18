@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\PaymentTypeModel;
+use App\Controllers\PermissionChecker;
 
 class PaymentType extends BaseController
 {	
@@ -9,12 +10,13 @@ class PaymentType extends BaseController
 		helper('url');
         helper('form');
 		$this->paymentType = new paymentTypeModel();
+		$this->permcheck = new PermissionChecker();
 		$this->session = \Config\Services::session();
     }
 
 	public function index()
 	{	
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'PaymentType')){
 			date_default_timezone_set('Asia/Manila');
 			$data['payment_types'] = $this->paymentType->findAll();
 			return view('payment/type/index', $data);
@@ -23,7 +25,7 @@ class PaymentType extends BaseController
 	}
 
 	public function add(){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'PaymentTypeAdd')){
 			date_default_timezone_set('Asia/Manila');
 
 			if($this->request->getMethod()=='post'){
@@ -45,7 +47,7 @@ class PaymentType extends BaseController
 	}
 
 	public function edit($id=null){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in')  && $this->permcheck->check($this->session->get('id'), 'PaymentTypeEdit')){
 			date_default_timezone_set('Asia/Manila');
 			$data['payment_type'] = $this->paymentType->find($id);
 			
@@ -68,7 +70,7 @@ class PaymentType extends BaseController
 	}
 
 	public function delete($id=null){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'PaymentTypeDelete')){
 			if($this->paymentType->where('payment_type_id',$id)->delete()){
 				$this->session->setTempdata('success', 'Deleted Successfully!', 3);
 				return redirect()->to(base_url().'/payment/type');

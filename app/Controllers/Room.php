@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\RoomModel;
 use App\Models\RoomTypeModel;
 use App\Models\RoomStatusModel;
+use App\Controllers\PermissionChecker;
 
 class Room extends BaseController
 {
@@ -11,12 +12,13 @@ class Room extends BaseController
 		$this->roomModel = new RoomModel();
 		$this->roomTypeModel = new RoomTypeModel();
 		$this->roomStatusModel = new RoomStatusModel();
+		$this->permcheck = new PermissionChecker();
 		$this->session = \Config\Services::session();
     }
 
 	public function index()
 	{
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'Room')){
 			date_default_timezone_set('Asia/Manila');
 			$data['rooms'] = $this->roomModel->getDataWithType();
 			return view('room/index', $data);
@@ -25,7 +27,7 @@ class Room extends BaseController
 	}
 
 	public function add(){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RoomAdd')){
 			date_default_timezone_set('Asia/Manila');
 
 			$data['room_types'] = $this->roomTypeModel->findAll();
@@ -57,7 +59,7 @@ class Room extends BaseController
 	}
 
 	public function edit($id=null){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RoomEdit')){
 			date_default_timezone_set('Asia/Manila');
 			$data['room'] = $this->roomModel->find($id);
 			$data['room_types'] = $this->roomTypeModel->findAll();
@@ -101,7 +103,7 @@ class Room extends BaseController
 	}
 
 	public function delete($id=null){
-		if($this->session->has('logged_in')){
+		if($this->session->has('logged_in')&& $this->permcheck->check($this->session->get('id'),'RoomDelete')){
 			if($this->roomModel->where('room_id',$id)->delete() === true){
 				$this->session->setTempdata('success', 'Deleted Successfully!', 3);
 				return redirect()->to(base_url().'/room');

@@ -4,15 +4,17 @@ namespace App\Controllers;
 use App\Models\RoleModel;
 use App\Models\UserModel;
 use App\Models\UserAccessModel;
+use App\Controllers\PermissionChecker;
 
 class User extends BaseController{
 
     public function __construct() {
         helper(['form', 'url']);
+        $this->permcheck = new PermissionChecker();
     }
 
     public function index(){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'User')){
             $userModel = new UserModel();
             $data['users'] = $userModel->findAll();
             return view('user/index', $data);
@@ -21,14 +23,17 @@ class User extends BaseController{
     }
 
     public function dashboard(){
-        if($this->session->has('logged_in')){
-            return view('user/dashboard');
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserDashboard')){
+            return redirect()->to(base_url());
+        }
+        elseif($this->session->has('logged_in')){
+            return redirect()->to(base_url().'/reservation/view');
         }
         return view('errors/html/error_404');
     }
 
     public function add(){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserAdd')){
             $role = new RoleModel();
             $data['roles'] = $role->findAll();
 
@@ -65,7 +70,7 @@ class User extends BaseController{
     }
 
     public function view($id=null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserView')){
             $userModel = new UserModel();
             $data['user'] = $userModel->find($id);
             return view('user/view', $data);
@@ -74,7 +79,7 @@ class User extends BaseController{
     }
 
     public function role($user_id){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserRole')){
             $uacModel = new UserAccessModel();
             $userModel = new UserModel();
             $roleModel = new RoleModel();
@@ -87,7 +92,7 @@ class User extends BaseController{
     }
 
     public function edit(){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserEdit')){
             $userModel = new UserModel();
             $id = $this->session->get('id');
             $data['user'] = $userModel->find($id);
@@ -115,7 +120,7 @@ class User extends BaseController{
     }
 
     public function delete($id){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserDelete')){
             $userModel = new UserModel();
             if($userModel->where('user_id', $id)->delete() === true){
                 $this->session->setTempdata('success_user', 'Deleted Successfully!', 3);
@@ -138,10 +143,11 @@ class User extends BaseController{
                 echo "false";
             }
         }
+        return view('errors/html/error_404');
     }
 
     public function addRoleToUser($user_id= null, $role_id= null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserRoleAdd')){
             $uacModel = new UserAccessModel();
             $data = [
                 'user_id' => $user_id,
@@ -158,7 +164,7 @@ class User extends BaseController{
     }
 
     public function removeRoleToUser($user_id= null, $uac_id= null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserRoleRemove')){
             $uacModel = new UserAccessModel();
             if($uacModel->where('user_access_id', $uac_id)->delete()){
                 $this->session->setTempdata('success_role_user', 'Removed Successfully!', 3);

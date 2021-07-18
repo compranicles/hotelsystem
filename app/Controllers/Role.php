@@ -4,16 +4,18 @@ namespace App\Controllers;
 use App\Models\RoleModel;
 use App\Models\PermissionModel;
 use App\Models\RolePermModel;
+use App\Controllers\PermissionChecker;
 
 class Role extends BaseController{
 
     public function __construct(){
         $this->roleModel = new RoleModel();
         $this->session = \Config\Services::session();
+        $this->permcheck = new PermissionChecker();
     }
 
     public function index() {
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'Role')){
             $data['roles'] = $this->roleModel->findAll();
             return view('role/index', $data);
         }
@@ -21,7 +23,7 @@ class Role extends BaseController{
     }
     
     public function add(){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RoleAdd')){
             if($this->request->getMethod() == 'post'){
                 $data = [
                     'name' => $this->request->getVar('name'),
@@ -41,7 +43,7 @@ class Role extends BaseController{
     }
 
     public function edit($id=null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RoleEdit')){
             $data['role'] = $this->roleModel->find($id);
 
             if($this->request->getMethod() == 'post'){
@@ -63,7 +65,7 @@ class Role extends BaseController{
     }
 
     public function delete($id=null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RoleDelete')){
             if($this->roleModel->where('role_id', $id)->delete()){
                 $this->session->setTempdata('success_role', 'Deleted Successfully!', 3);
                 return redirect()->to(base_url().'/role');
@@ -76,7 +78,7 @@ class Role extends BaseController{
     }
 
     public function permission($id=null) {
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RolePermission')){
             $permission = new PermissionModel();
             $roleperm = new RolePermModel();
             $data['role'] = $this->roleModel->find($id);
@@ -89,7 +91,7 @@ class Role extends BaseController{
     }
 
     public function addPermissionToRole($role_id= null, $permission_id= null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RolePermissionAdd')){
             $roleperm = new RolePermModel();
             $data = [
                 'role_id' => $role_id,
@@ -108,7 +110,7 @@ class Role extends BaseController{
     }
 
     public function removePermissionToRole($role_id= null, $rope_id= null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'RolePermissionRemove')){
             $roleperm = new RolePermModel();
             if($roleperm->where('role_perm_id', $rope_id)->delete()){
                 $this->session->setTempdata('success_perm_role', 'Removed Successfully!', 3);

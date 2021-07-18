@@ -2,16 +2,18 @@
 
 namespace App\Controllers;
 use App\Models\PermissionModel;
+use App\Controllers\PermissionChecker;
 
 class Permission extends BaseController{
     
     public function __construct() {
         $this->permissionModel = new PermissionModel();
+        $this->permcheck = new PermissionChecker();
         $this->session = \Config\Services::session();
     }
 
     public function index(){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in')  && $this->permcheck->check($this->session->get('id'), 'Permission')){
             $data['permissions'] = $this->permissionModel->findAll();
             return view('permission/index', $data);
         }
@@ -19,7 +21,7 @@ class Permission extends BaseController{
     }
 
     public function add(){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in')  && $this->permcheck->check($this->session->get('id'), 'PermissionAdd')){
             if($this->request->getMethod()=='post'){
                 $data = [
                     'name' => $this->request->getVar('name'),
@@ -40,7 +42,7 @@ class Permission extends BaseController{
     }
 
     public function edit($id=null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'PermissionEdit')){
             $data['permission'] = $this->permissionModel->find($id);
 
             if($this->request->getMethod() == 'post'){
@@ -62,7 +64,7 @@ class Permission extends BaseController{
     }
 
     public function delete($id=null){
-        if($this->session->has('logged_in')){
+        if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'PermissionDelete')){
             if($this->permissionModel->where('permission_id', $id)->delete()){
                 $this->session->setTempdata('success', 'Deleted Successfully!', 3);
                 return redirect()->to(base_url().'/permission');
