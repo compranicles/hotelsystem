@@ -12,8 +12,6 @@ class BookingModel extends Model{
         'user_id'
     ];
 
-    protected $useSoftDeletes = false;
-
     public function saveGetId($data){
         $db = \Config\Database::connect();
         $builder = $db->table('bookings');
@@ -99,3 +97,5 @@ class BookingModel extends Model{
         return $query->getResultArray();
     }
 }
+
+?>
