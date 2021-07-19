@@ -58,9 +58,9 @@
         //document.getElementById('text').value=c;
         //document.forms[0].target = "_blank";
         //document.forms[0].submit(); ///triggered when scanned; get value from input
-        //window.open(base_url().'/customercheck/'.c, "_blank");
+        //window.open(base_url().'/checkreservation/'.c, "_blank");
         console.log(c);
-        var url = "/customercheck/confirm";
+        var url = "/checkreservation/confirm";
         var booking_id = c;
         //not fixed
         $.ajax({

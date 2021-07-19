@@ -87,22 +87,17 @@
 
 <script>
 
-  //document.getElementById("select_payment").selectedIndex = -1;
   $(document).on('click', '#checkoutpay', function() {
 
         var url = "/payment/checkoutpayment/";
-        //$.post(url, collect);
-        //window.location = url;
         $.ajax({
             type: "POST",
             url: url,
-            //dataType: "json",
             data: {booking_id: <?= $bookingPass; ?> , payment_type: $('#select_payment').val(), amount: <?= $total; ?>},
             success: function(result) {
                 window.location = result;
             }
         });
-    //});
   });
 
 </script>

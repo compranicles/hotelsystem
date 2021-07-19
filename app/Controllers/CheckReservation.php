@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\ShowModel;
 use App\Models\BookingModel;
 
-class CustomerCheck extends BaseController
+class CheckReservation extends BaseController
 {
     public function __construct() {
         helper('form');
@@ -29,7 +29,7 @@ class CustomerCheck extends BaseController
 
             if (count($booking) == 0) {
                 $this->session->setTempdata('error', 'Reservation not Found', 3);
-                echo base_url()."/customercheck";             
+                echo base_url()."/checkreservation";             
             }
 
             $bookingPassId = $this->showModel->where('booking_id', $booking[0]['booking_id'])->findAll();
@@ -44,7 +44,7 @@ class CustomerCheck extends BaseController
 
                 if ($this->showModel->save($dataToInsert) === true) {
                     $this->session->setTempdata('success', 'Checked-in successfully!', 3);
-                    echo base_url()."/customercheck";
+                    echo base_url()."/checkreservation";
                 }
             }
 
@@ -54,7 +54,7 @@ class CustomerCheck extends BaseController
 
             else {    
                 $this->session->setTempdata('error', 'Invalid: Transaction has been ended!', 3);      
-                echo base_url()."/customercheck";
+                echo base_url()."/checkreservation";
             }
         }
     }
