@@ -65,13 +65,12 @@
                 
                 <div class="form_select_paymentType">
                     <p><strong>Payment Type:</strong>
-                    <select class="validate[required] form-select rounded-0 mt-1" name="payment_type" id="select_payment">
-                    <?php foreach ($forPaymentType as $type): ?>
-                        <option value="" selected disabled>---Select---</option>
-                        <option value="<?= $type['payment_type_id']; ?>"><?= $type['name']; ?></option>
-                
-                    </select>
-                    <?php endforeach; ?>
+                        <select class="validate[required] form-select rounded-0 mt-1" name="payment_type" id="select_payment">
+                            <option value="" selected disabled>---Select---</option>
+                            <?php foreach ($forPaymentType as $type): ?>
+                            <option value="<?= $type['payment_type_id']; ?>"><?= $type['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </p>
                 </div>
                 
