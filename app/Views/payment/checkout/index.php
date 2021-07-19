@@ -3,7 +3,7 @@
 <?= $this->section('content');?>
 <?= $this->include('bars/navbar')?>
 
-<div class="container mt-3">
+<div class="container my-3">
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card mb-4 rounded-0">

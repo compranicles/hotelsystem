@@ -1,7 +1,7 @@
 <?= $this->extend('template/layout')?>
 <?= $this->section('content')?>
 <?= $this->include('bars/navbar')?>
-<div class="container-fluid mt-4">
+<div class="container-fluid my-4">
     <div class="row">
         <div class="col-md-3">
             <h2 class="ms-4">Reports Dashboard</h2>
@@ -51,8 +51,8 @@
                             <div class="col">
                                 <div class="card border-info mb-3" style="max-width: 15rem;">
                                     <div class="card-body">
-                                        <h1 class="card-title text-info"><?= $cancels?></h1>
-                                        <h5 class="card-title">Reservations Cancelled</h5>
+                                        <h1 class="card-title text-info"><?= $guests?></h1>
+                                        <h5 class="card-title">Guests In-house</h5>
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                                 <div class="card border-info mb-3" style="max-width: 15rem;">
                                     <div class="card-body">
                                         <h1 class="card-title text-info"><?= $cancels?></h1>
-                                        <h5 class="card-title">Guests In-house</h5>
+                                        <h5 class="card-title">Reservations Cancelled</h5>
                                     </div>
                                 </div>
                             </div>

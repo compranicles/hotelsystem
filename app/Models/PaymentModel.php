@@ -19,6 +19,15 @@ class PaymentModel extends Model {
     //protected $useTimestamps = true;
     //protected $createdField = 'payment_date';
 
+    public function findUsingId($user_id){
+        $builder = $this->db->table('payments');
+        $builder->select("*");
+        $builder->join('bookings', 'bookings.booking_id = payments.booking_id');
+        $builder->where('bookings.user_id', $user_id);
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
+
 }
 
 ?>

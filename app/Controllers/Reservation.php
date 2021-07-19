@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\RoomModel;
+use App\Models\ShowModel;
 use CodeIgniter\I18n\Time;
 use App\Models\BookingModel;
 use App\Models\RoomTypeModel;
@@ -21,13 +22,13 @@ class Reservation extends BaseController
 
 	public function index()
 	{
-		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'Reservation')){
+		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'Reservation') && !($this->permcheck->check($this->session->get('id'),'ReservationView'))){
 			date_default_timezone_set('Asia/Manila');
 			$bookModel = new BookingModel();
 			$data['reservations'] = $bookModel->getUsingId($this->session->get('id'));
 			return view('reservation/index', $data);
 		}
-		elseif($this->session->has('logged_in')){
+		elseif($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'ReservationView')){
 			return redirect()->to(base_url().'/reservation/view');
 		}
 		return view('errors/html/error_404');
@@ -157,9 +158,12 @@ class Reservation extends BaseController
 		if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'ReservationView')){
 			$bookModel = new BookingModel();
 			$cancelModel = new CancelledModel();
+			$showModel = new ShowModel();
 			$data['booked'] = $bookModel->getAllData();
 			$data['cancelled'] = $cancelModel->getAllData();
+			$data['showed'] = $showModel->getAllData();
 			return view('reservation/view', $data);
+			// print_r($data['showed']);
 		}
 		return view('errors/html/error_404');
 	}

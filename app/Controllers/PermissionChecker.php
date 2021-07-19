@@ -17,4 +17,16 @@ class PermissionChecker extends BaseController
         }
         return false;
 	}
+
+    public function checkajax($user_id, $permissionneed)
+	{	
+        $userAccessModel = new UserAccessModel();
+        $userpermissions = $userAccessModel->getPermission($user_id);
+        foreach($userpermissions as $userpermission){
+            if($permissionneed == $userpermission['permission_name']){
+                echo true;
+            }
+        }
+        echo false;
+	}
 }
