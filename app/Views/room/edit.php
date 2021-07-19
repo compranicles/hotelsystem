@@ -2,7 +2,7 @@
 
 <?= $this->section('content'); ?>
 <?= $this->include('bars/navbar')?>
-<div class="container mt-5">
+<div class="container my-5">
     <div class="row">
         <div class="col-md-7">
             <div class="card">

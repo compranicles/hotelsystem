@@ -35,6 +35,18 @@ class ReportModel extends Model{
         return $query->getResultArray();
     }
 
+    public function countGuests($date1, $date2){
+        $query = $this->db->query("
+            SELECT
+                SUM(reservations.no_of_guests) as guests
+            FROM reservations
+                INNER JOIN bookings ON bookings.reservation_id = reservations.reservation_id
+                INNER JOIN shows ON shows.booking_id = bookings.booking_id
+            WHERE (DATE(shows.date_checked_in) <= '$date1') AND (shows.date_checked_out IS NULL OR shows.date_checked_out = '')
+        ");
+        return $query->getResultArray();
+    }
+
     // public function countExpectedCheckIns($date){
     //     $query = $this->db->query("
     //         SELECT

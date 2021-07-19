@@ -4,7 +4,7 @@
 
 <?php $session = \Config\Services::session(); ?>
 <?= $this->include('bars/navbar')?>
-    <div class="container mt-5">
+    <div class="container my-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
@@ -16,20 +16,20 @@
                     </div>
                     <div class="card-body">
                         <div class="container mb-2">
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-12">
-                                        <?php if ($session->getTempdata('success_role')): ?>
-                                            <div class="alert alert-success" role="alert">
-                                                <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success_role'); ?>
-                                            </div>
-                                            <?php elseif ($session->getTempdata('error_role')): ?>
-                                            <div class="alert alert-danger" role="alert">
-                                            <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error_role'); ?>
-                                            </div>
-                                            <?php endif; ?>
-                                        </div>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-12">
+                                <?php if ($session->getTempdata('success_role')): ?>
+                                    <div class="alert alert-success" role="alert">
+                                        <i class="bi bi-check-circle"></i>  <?= $session->getTempdata('success_role'); ?>
                                     </div>
+                                    <?php elseif ($session->getTempdata('error_role')): ?>
+                                    <div class="alert alert-danger" role="alert">
+                                    <i class="bi bi-x-circle"></i>  <?= $session->getTempdata('error_role'); ?>
+                                    </div>
+                                    <?php endif; ?>
                                 </div>
+                            </div>
+                        </div>
                         <?php if(count($roles)>0): ?>
                             <table id="role_table"class="table table-striped table-hover table-responsive">
                                 <thead>

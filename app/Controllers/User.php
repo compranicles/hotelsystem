@@ -24,10 +24,10 @@ class User extends BaseController{
 
     public function dashboard(){
         if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'),'UserDashboard')){
-            return redirect()->to(base_url());
+            return redirect()->to(base_url().'/reservation');
         }
         elseif($this->session->has('logged_in')){
-            return redirect()->to(base_url().'/reservation/view');
+            return redirect()->to(base_url().'/customercheck');
         }
         return view('errors/html/error_404');
     }

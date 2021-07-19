@@ -50,4 +50,30 @@ class ReservationModel extends Model{
         ");
         return $query->getRowArray(0);
     }
+
+    public function getPaymentInfo($reservation_id){
+        $query = $this->db->query("
+            SELECT
+                r.reservation_id as resId,
+                u.first_name as fname,
+                u.last_name as lname,
+                rm.name as room_name,
+                s.date_checked_in as start_date,
+                s.date_checked_out as end_date,
+                r.no_of_guests as guests
+            FROM reservations r
+            INNER JOIN bookings b 
+                ON r.reservation_id = b.reservation_id
+            INNER JOIN shows s 
+                ON b.booking_id = s.booking_id
+            INNER JOIN users u
+                ON b.user_id = u.user_id
+            INNER JOIN rooms rm 
+                ON r.room_id = rm.room_id
+            
+            WHERE
+                r.reservation_id = '$reservation_id'
+        ");
+        return $query->getRowArray(0);
+    }
 }
