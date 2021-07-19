@@ -96,6 +96,16 @@ class BookingModel extends Model{
         ");
         return $query->getResultArray();
     }
+
+    public function checkin_today($booking_id){
+        $builder = $this->db->table('bookings');
+        $builder->select('reservations.arrival_date');
+        $builder->join('reservations', 'bookings.reservation_id = reservations.reservation_id');
+        //$builder->where('arrival_date', CURDATE());
+        $builder->where('bookings.booking_id = '.$booking_id);
+        $query = $builder->get();
+        return $query->getResultArray();
+    }
 }
 
 ?>

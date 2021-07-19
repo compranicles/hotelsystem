@@ -5,7 +5,13 @@
 
 <?php $session = \Config\Services::session(); ?>
 
+
+<?php if($session->getFlashdata('arrival')) { 
+    echo '<script>alert("Check-in failed: The guests arrival date is on '.$session->getFlashdata('arrival').' ."); </script>';
+} ?>
+
     <div class="container mb-5">
+
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <h2 class="text-center head">Check Reservation</h2>
@@ -88,6 +94,5 @@
         });
 
     });
-
 </script>
 <?= $this->endSection();?>
