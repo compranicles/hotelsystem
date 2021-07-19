@@ -2,7 +2,7 @@
 <?= $this->section('content')?>
 <?php $session = \Config\Services::session(); ?>
 <?= $this->include('bars/navbar')?>
-<div class="container mt-5">
+<div class="container my-5">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -99,7 +99,7 @@
                             <?php endif; ?>
                         </div>
                         <div class="tab-pane fade" id="cancel" role="tabpanel" aria-labelledby="cancel-tab">
-                        <?php if(count($cancelled)>0):?>
+                            <?php if(count($cancelled)>0):?>
                                 <div class="container mt-3">
                                     <div class="row">
                                         <div class="col-md-12">
@@ -133,7 +133,36 @@
                             <?php endif; ?>
                         </div>
                         <div class="tab-pane fade" id="claim" role="tabpanel" aria-labelledby="claim-tab">
-                        
+                            <?php if(count($showed)>0):?>
+                                <div class="container mt-3">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <table id="showed_table" class="table table-striped table-hover table-responsive">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Guest Name</th>
+                                                        <th>Booking ID</th>
+                                                        <th>Date Checked-In</th>
+                                                        <th>Date Checked-Out</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <?php foreach($showed as $row) :?>
+                                                        <tr>
+                                                            <td><?= $row['show_id'] ?></td>
+                                                            <td><?= $row['first_name'].' '.$row['last_name'] ?></td>
+                                                            <td><?= $row['booking_id'] ?></td>
+                                                            <td><?= $row['date_checked_in'] ?></td>
+                                                            <td><?= $row['date_checked_out'] ?></td>
+                                                        </tr>
+                                                    <?php endforeach;?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
                         </div>
                         <div class="tab-pane fade" id="noclaim" role="tabpanel" aria-labelledby="noclaim-tab">
                         <?php if(count($booked)>0):?>
@@ -240,6 +269,9 @@
             "order":[[3, 'asc']],
         });
         $('#cancel_table').DataTable({
+            "order":[[3, 'desc'],[4, 'desc']],
+        });
+        $('#showed_table').DataTable({
             "order":[[2, 'desc']],
         });
         $('#noshow_table').DataTable({
