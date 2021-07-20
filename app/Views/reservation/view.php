@@ -81,9 +81,10 @@
                                                                 <td><?= $row['end_date']?></td>
                                                                 <td><?= $row['guests']?></td>
                                                                 <td><?= $row['date_reserved']?></td>
-                                                                <td>
+                                                                <td><nobr>
                                                                     <?php if($d1 <= $d3 && $d1 >= $d2) :?>
-                                                                        <i>Arriving...</i>
+                                                                            <button type="button" value="<?= $row['reservation_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel</button>
+                                                                            <i>Arriving...</i>
                                                                     <?php else: ?>
                                                                         <button type="button" value="<?= $row['reservation_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel</button>
                                                                     <?php endif;?>
@@ -179,6 +180,7 @@
                                                         <th>Date of Departure</th>
                                                         <th>Number of Guests</th>
                                                         <th>Date Reserved</th>
+                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -200,6 +202,7 @@
                                                                 <td><?= $row['end_date']?></td>
                                                                 <td><?= $row['guests']?></td>
                                                                 <td><?= $row['date_reserved']?></td>
+                                                                <td><button type="button" value="<?= $row['reservation_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel</button></td>
                                                             </tr>
                                                         <?php endif?>
                                                     <?php endforeach;?>
@@ -263,6 +266,29 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="cancelModalLabel">Confirm Delete</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="icon text-center">
+            <i class="bi bi-exclamation-circle danger"></i>
+            </div>
+            <p></p>
+        <div class="modal-body2">
+            <p>This action is irreversible. Do you want to continue?</p>
+        </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-bs-dismiss="modal">No</button>
+            <button type="button" class="confirm_del btn btn-danger" data-bs-dismiss="modal">Yes</button>
+        </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready( function () {
         $('#normal_table').DataTable({
@@ -301,5 +327,23 @@
         });
         
     });
+</script>
+<script>
+    var exampleModal = document.getElementById('cancelModal')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+        var button = event.relatedTarget
+        var id = button.getAttribute('value')
+        $('.confirm_del').click(function (e) {
+            e.preventDefault();
+
+            var url = "/reservation/cancel/" + id
+            $.ajax({
+                url: url,
+                success: function () {
+                    window.location = '/reservation'
+                } 
+            })
+        })   
+    })
 </script>
 <?= $this->endSection()?>

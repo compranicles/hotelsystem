@@ -83,14 +83,15 @@
                             <div class="card border-dark ms-3 mb-3" style="max-width: 15rem;">
                                 <div class="card-header bg-transparent">Preferred Payment Type</div>
                                 <div class="card-body text-dark">
+                                    <?php if(count($paymentrecords)>0): ?>
                                     <?php foreach($paymentrecords as $row): ?>
-                                        <?php foreach($paymenttypes as $paymenttype): ?>
-                                            <?php if($row['payment_type_id'] == $paymenttype['payment_type_id']): ?>
-                                                <h1 class="card-title text-info"><?= $row['paymenttypecount']?></h1>
-                                                <h5 class="card-title"><?= $paymenttype['name']?> Transactions</h5>
-                                            <?php endif?>
-                                        <?php endforeach?>
+                                        <h1 class="card-title text-info"><?= $row['paymenttypecount']?></h1>
+                                        <h5 class="card-title"><?= $row['typename']?> Transactions</h5>
                                     <?php endforeach?>
+                                    <?php else: ?>
+                                        <h1 class="card-title text-info">0</h1>
+                                        <h5 class="card-title">Transactions</h5>
+                                    <?php endif?>
                                 </div>
                             </div>
                         </div>
@@ -165,7 +166,58 @@
                             <div class="card border-dark mb-3 ms-3" style="max-width: 15rem;">
                                 <div class="card-header bg-transparent">Total Revenue</div>
                                 <div class="card-body text-dark">
-                                    <h1 class="card-title text-info"><?= $totalrevenue?></h1>
+                                    <h1 class="card-title text-success"><?= number_format($totalrevenue, 2, ".", ",")?></h1>
+                                    <h5 class="card-title">PHP</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-dark mb-3 ms-3" style="max-width: 15rem;">
+                                <div class="card-header bg-transparent">No. of No Shows</div>
+                                <div class="card-body text-dark">
+                                    <h1 class="card-title text-info">
+                                        <?php
+                                            $countcancelled = 0; 
+                                            $countnoshows = 0;
+                                            foreach($totalnoshows as $row){
+                                                if($row['noshows'] == 0){
+                                                    $countcancelled++;
+                                                }
+                                                if($row['cancelled'] == 1){
+                                                    $countnoshows++;
+                                                }
+                                            }
+                                            echo abs($countnoshows-$countcancelled);
+                                        ?>
+                                    </h1>
+                                    <h5 class="card-title">No-Shows</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-dark mb-3 ms-3" style="max-width: 15rem;">
+                                <div class="card-header bg-transparent">Loss From Cancelled Reservations</div>
+                                <div class="card-body text-dark">
+                                    <h1 class="card-title text-danger"><?= number_format($totallosscancel, 2, '.', ',')?></h1>
+                                    <h5 class="card-title">PHP</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card border-dark mb-3 ms-3" style="max-width: 15rem;">
+                                <div class="card-header bg-transparent">Loss From No-Shows</div>
+                                <div class="card-body text-dark">
+                                    <h1 class="card-title text-danger">
+                                        <?php
+                                            $totalamount = 0; 
+                                            foreach($lossnoshows as $row){
+                                                if($row['noshows'] == 0){
+                                                    $totalamount += $row['lossamount'];
+                                                }
+                                            }
+                                            echo number_format(abs($totallosscancel-$totalamount), 2, '.', ',');
+                                        ?>
+                                    </h1>
                                     <h5 class="card-title">PHP</h5>
                                 </div>
                             </div>

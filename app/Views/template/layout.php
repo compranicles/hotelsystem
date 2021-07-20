@@ -8,7 +8,7 @@
     
     <link href="/css/bootstrap-icons.css" rel="stylesheet" >
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" > -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" >
     <link href="https://cdn.datatables.net/v/bs5/jq-3.3.1/dt-1.10.25/datatables.min.css" rel="stylesheet" type="text/css" />
     <link href="/css/style.css" rel="stylesheet" >
 

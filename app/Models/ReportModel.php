@@ -50,10 +50,12 @@ class ReportModel extends Model{
     public function payments($date1, $date2){
         $query = $this->db->query("
             SELECT
-                payment_type_id, COUNT(payment_type_id) as paymenttypecount
-            FROM payments
-            WHERE DATE(payment_date) BETWEEN '$date1' AND '$date2'
-            GROUP BY payment_type_id
+                pm.name as typename, COUNT(p.payment_type_id) as paymenttypecount
+            FROM payments p
+            INNER JOIN payment_types pm 
+                ON pm.payment_type_id = p.payment_type_id
+            WHERE DATE(p.payment_date) BETWEEN '$date1' AND '$date2'
+            GROUP BY p.payment_type_id
         ");
         return $query->getResultArray();
     }
@@ -79,9 +81,11 @@ class ReportModel extends Model{
             FROM reservations
             INNER JOIN bookings
                 ON reservations.reservation_id = bookings.reservation_id  
-            WHERE reservations.reservation_id NOT IN (SELECT shows.booking_id FROM shows WHERE shows.booking_id = bookings.booking_id)
-            AND reservations.reservation_id NOT IN (SELECT cancelled_reservations.reservation_id FROM cancelled_reservations WHERE cancelled_reservations.reservation_id = reservations.reservation_id)
+            INNER JOIN shows
+                ON shows.booking_id = bookings.booking_id
+            WHERE reservations.reservation_id NOT IN (SELECT cancelled_reservations.reservation_id FROM cancelled_reservations WHERE cancelled_reservations.reservation_id = reservations.reservation_id)
             AND (DATE(reservations.departure_date) BETWEEN '$date1' AND '$date2')
+            AND shows.date_checked_out IS NULL
         ");
         return $query->getResultArray();
     }
@@ -119,6 +123,60 @@ class ReportModel extends Model{
         $builder->selectSum('amount');
         $builder->where('payment_date >=', $date1)->where('payment_date <=', $date2);
         $query = $builder->get();
+        return $query->getResultArray();
+    }
+
+    public function countNoShows($date1, $date2){
+        $query = $this->db->query("
+            SELECT DISTINCT		
+                bk.booking_id as booking_id,
+                CASE WHEN c.reservation_id IS NULL THEN 0 ELSE 1 END as cancelled,
+                CASE WHEN s.booking_id IS NULL THEN 0 ELSE 1 END as noshows
+            FROM bookings bk
+            INNER JOIN reservations r 
+                ON bk.reservation_id = r.reservation_id
+            LEFT JOIN cancelled_reservations c 
+                ON r.reservation_id = c.reservation_id
+            LEFT JOIN shows s 
+                ON bk.booking_id = s.booking_id
+            WHERE (DATE(r.departure_date) BETWEEN '$date1' AND '$date2') AND (DATE(r.arrival_date) BETWEEN '$date1' and '$date2')
+        ");
+        return $query->getResultArray();
+    }
+
+    public function lossFromCancels($date1, $date2){
+        $query = $this->db->query("
+            SELECT
+                ABS(SUM(rt.price * DATEDIFF(r.arrival_date, r.departure_date))) as losscancels
+            FROM cancelled_reservations c
+            INNER JOIN reservations r
+                ON r.reservation_id = c.reservation_id
+            INNER JOIN rooms rm
+                ON rm.room_id = r.room_id
+            INNER JOIN room_types rt
+                ON rt.room_type_id = rm.room_type_id
+            WHERE (DATE(c.cancellation_date) BETWEEN '$date1' and '$date2')
+        ");
+        return $query->getResultArray();
+    }
+
+    public function lossFromNoShows($date1, $date2){
+        $query = $this->db->query("
+            SELECT 
+                bk.booking_id as booking_id,
+                ABS(rt.price * DATEDIFF(r.arrival_date, r.departure_date)) as lossamount,
+                CASE WHEN s.booking_id IS NULL THEN 0 ELSE 1 END as noshows
+            FROM bookings bk
+            INNER JOIN reservations r 
+                ON bk.reservation_id = r.reservation_id
+            INNER JOIN rooms rm
+                ON rm.room_id = r.room_id
+            INNER JOIN room_types rt
+                ON rt.room_type_id = rm.room_type_id
+            LEFT JOIN shows s 
+                ON bk.booking_id = s.booking_id
+            WHERE (DATE(r.departure_date) BETWEEN '$date1' AND '$date2') AND (DATE(r.arrival_date) BETWEEN '$date1' and '$date2')
+        ");
         return $query->getResultArray();
     }
 

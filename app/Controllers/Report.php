@@ -19,12 +19,10 @@ class Report extends BaseController{
             $paymentTypeModel = new PaymentTypeModel();
             $minusOneMonth = date('Y-m-d', strtotime('-1 months'));
             $today = date('Y-m-d', strtotime('today'));
-            // $days = $this->dateDiff($minusOneMonth, $today);
 
             if($this->request->getMethod()=='post'){
                 $datestart = $this->request->getVar('start_date');
                 $dateend = $this->request->getVar('end_date');
-                // $days = $this->dateDiff($datestart, $dateend);
                 $data = [
                     'datestart' => date("F j, Y",strtotime($datestart)),
                     'dateend' => date("F j, Y",strtotime($dateend)),
@@ -33,7 +31,6 @@ class Report extends BaseController{
                     'cancels' => $reportModel->countCancels($today, $today)[0]['cancels'],
                     'guests' => $reportModel->countGuests($today)[0]['guests'],
                     'paymentrecords' => $reportModel->payments($datestart, $dateend),
-                    'paymenttypes' => $paymentTypeModel->findAll(),
                     'rangecheckins' => $reportModel->countCheckIns($datestart, $dateend)[0]['checkins'],
                     'rangecheckouts' => $reportModel->countCheckOuts($datestart, $dateend)[0]['checkouts'],
                     'rangecancels' => $reportModel->countCancels($datestart, $dateend)[0]['cancels'],
@@ -42,6 +39,10 @@ class Report extends BaseController{
                     'rangeunoccupied' => $reportModel->countUnoccupied($datestart, $dateend)[0]['room_id'],
                     'rangereservations' => $reportModel->countTotalReservations($datestart, $dateend)[0]['reservation_id'],
                     'totalrevenue' => $reportModel->totalRevenue($datestart, $dateend)[0]['amount'],
+                    'totalnoshows' => $reportModel->countNoShows($datestart, $dateend),
+                    'totallosscancel' => $reportModel->lossFromCancels($datestart, $dateend)[0]['losscancels'],
+                    'lossnoshows' => $reportModel->lossFromNoShows($datestart, $dateend),
+
                 ];
             }
             else{
@@ -53,7 +54,6 @@ class Report extends BaseController{
                     'cancels' => $reportModel->countCancels($today, $today)[0]['cancels'],
                     'guests' => $reportModel->countGuests($today)[0]['guests'],
                     'paymentrecords' => $reportModel->payments($minusOneMonth, $today),
-                    'paymenttypes' => $paymentTypeModel->findAll(),
                     'rangecheckins' => $reportModel->countCheckIns($minusOneMonth, $today)[0]['checkins'],
                     'rangecheckouts' => $reportModel->countCheckOuts($minusOneMonth, $today)[0]['checkouts'],
                     'rangecancels' => $reportModel->countCancels($minusOneMonth, $today)[0]['cancels'],
@@ -62,10 +62,11 @@ class Report extends BaseController{
                     'rangeunoccupied' => $reportModel->countUnoccupied($minusOneMonth, $today)[0]['room_id'],
                     'rangereservations' => $reportModel->countTotalReservations($minusOneMonth, $today)[0]['reservation_id'],
                     'totalrevenue' => $reportModel->totalRevenue($minusOneMonth, $today)[0]['amount'],
+                    'totalnoshows' => $reportModel->countNoShows($minusOneMonth, $today),
+                    'totallosscancel' => $reportModel->lossFromCancels($minusOneMonth, $today)[0]['losscancels'],
+                    'lossnoshows' => $reportModel->lossFromNoShows($minusOneMonth, $today),
                 ];
             }
-            
-            
             // print_r($data);
             // echo date('d-m-y h:i:s');
             return view('report/index', $data);
@@ -73,8 +74,4 @@ class Report extends BaseController{
         return view('errors/html/error_404');
     }
 
-    function dateDiff($start, $end){
-        $diff = strtotime($start) - strtotime($end);
-        return ceil(abs($diff/ 86400));
-    }
 }
