@@ -42,7 +42,8 @@ class Report extends BaseController{
                     'totalnoshows' => $reportModel->countNoShows($datestart, $dateend),
                     'totallosscancel' => $reportModel->lossFromCancels($datestart, $dateend)[0]['losscancels'],
                     'lossnoshows' => $reportModel->lossFromNoShows($datestart, $dateend),
-
+                    'reservations' => $reportModel->getAllReservations($datestart, $dateend),
+                    'payments' => $reportModel->getAllPayments($datestart, $dateend),
                 ];
             }
             else{
@@ -65,6 +66,8 @@ class Report extends BaseController{
                     'totalnoshows' => $reportModel->countNoShows($minusOneMonth, $today),
                     'totallosscancel' => $reportModel->lossFromCancels($minusOneMonth, $today)[0]['losscancels'],
                     'lossnoshows' => $reportModel->lossFromNoShows($minusOneMonth, $today),
+                    'reservations' => $reportModel->getAllReservations($minusOneMonth, $today),
+                    'payments' => $reportModel->getAllPayments($minusOneMonth, $today),
                 ];
             }
             // print_r($data);
