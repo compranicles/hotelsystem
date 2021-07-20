@@ -14,10 +14,13 @@
                   <?php  
                         $arrival = new DateTime($forPayment[0]['arrival_date']);
                         $departure = new DateTime($forPayment[0]['departure_date']);
+                        $other_charges = 0.00;
 
                         $nights = $departure->diff($arrival)->format("%a");
                         
                         $total = $forPayment[0]['price'] * $nights;
+
+
                     ?>
                     
                     <h5 class="name_payment mb-3"><?= $forPayment[0]['first_name']." ".$forPayment[0]['last_name']; ?></h5>
@@ -31,6 +34,7 @@
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Amount</th>
+                        <th scope="col">Other Charges (If any)</th>
                         <th scope="col">Reservation</th>
                         </tr>
                     </thead>
@@ -41,6 +45,25 @@
                         <?php if ($nights >= 2): ?>
                             x (<?= $nights; ?>) nights
                         <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php
+                            if($departure->diff($checkForLateCheckout[0]['date_checked_in'])->format("%h") <= 2){
+                                echo "&#8369; 0.00";
+                            }
+                            elseif($departure->diff($checkForLateCheckout[0]['date_checked_in'])->format("%h") <= 4) {
+                                $other_charges += ($total *  0.25);
+                                echo "Late Check-out Charge (4 hours max.): &#8369; ".$other_charges;
+                            }
+                            elseif($departure->diff($checkForLateCheckout[0]['date_checked_in'])->format("%h") <= 6) {
+                                $other_charges += ($total *  0.50);
+                                echo "Late Check-out Charge (6 hours max.): &#8369; ".$other_charges;
+                            }
+                            else{
+                                $other_charges += ($total);
+                                echo "Overstayed (more than 6 hours): &#8369; ".$other_charges;
+                            }
+                            ?>
                         </td>
                         <td>
                             <table>
@@ -60,7 +83,7 @@
                     </table>
                     </div>
                 </div>
-                <p class="amount"><strong>Total Amount: </strong> &#8369; <?= number_format($total, 2); ?></p>
+                <p class="amount"><strong>Total Amount: </strong> &#8369; <?= number_format($total + $other_charges, 2); ?></p>
 
                 
                 <div class="form_select_paymentType">
