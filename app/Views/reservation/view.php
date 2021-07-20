@@ -180,7 +180,6 @@
                                                         <th>Date of Departure</th>
                                                         <th>Number of Guests</th>
                                                         <th>Date Reserved</th>
-                                                        <th>Actions</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -202,7 +201,6 @@
                                                                 <td><?= $row['end_date']?></td>
                                                                 <td><?= $row['guests']?></td>
                                                                 <td><?= $row['date_reserved']?></td>
-                                                                <td><button type="button" value="<?= $row['reservation_id']?>" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">Cancel</button></td>
                                                             </tr>
                                                         <?php endif?>
                                                     <?php endforeach;?>

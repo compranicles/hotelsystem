@@ -67,9 +67,10 @@ class ReportModel extends Model{
             FROM reservations
             INNER JOIN bookings
                 ON reservations.reservation_id = bookings.reservation_id  
-            WHERE reservations.reservation_id NOT IN (SELECT shows.booking_id FROM shows WHERE shows.booking_id = bookings.booking_id)
-            AND reservations.reservation_id NOT IN (SELECT cancelled_reservations.reservation_id FROM cancelled_reservations WHERE cancelled_reservations.reservation_id = reservations.reservation_id)
-            AND (DATE(reservations.arrival_date) BETWEEN '$date1' AND '$date2')
+            WHERE bookings.booking_id NOT IN (SELECT shows.booking_id FROM shows WHERE shows.booking_id = bookings.booking_id)
+                AND reservations.reservation_id NOT IN (SELECT cancelled_reservations.reservation_id FROM cancelled_reservations WHERE cancelled_reservations.reservation_id = reservations.reservation_id)
+                AND (DATE(reservations.date_created) BETWEEN '$date1' AND '$date2')
+                AND (DATE(reservations.arrival_date) >= '$date2')
         ");
         return $query->getResultArray();
     }
@@ -179,6 +180,59 @@ class ReportModel extends Model{
         ");
         return $query->getResultArray();
     }
+    
+    public function getAllReservations($date1, $date2){
+        $query = $this->db->query("
+            SELECT DISTINCT		
+                bk.booking_id as booking_id,
+                r.reservation_id as reservation_id,
+                u.first_name as first_name,
+                u.last_name as last_name,
+                r.arrival_date as start_date,
+                r.departure_date as end_date,
+                r.no_of_guests as guests,
+                r.date_created as date_reserved,
+                o.name as room_name,
+                CASE WHEN c.reservation_id IS NULL THEN 0 ELSE 1 END as cancelled,
+                CASE WHEN s.booking_id IS NULL THEN 0 ELSE 1 END as showed
+            FROM bookings bk
+            INNER JOIN reservations r 
+                ON bk.reservation_id = r.reservation_id
+            INNER JOIN users u
+                ON bk.user_id = u.user_id
+            LEFT JOIN rooms o 
+                ON r.room_id = o.room_id
+            LEFT JOIN cancelled_reservations c 
+                ON r.reservation_id = c.reservation_id
+            LEFT JOIN shows s 
+                ON bk.booking_id = s.booking_id
+            WHERE DATE(r.date_created) BETWEEN '$date1' and '$date2'
+        ");
+        return $query->getResultArray();
+    }
+
+    public function getAllPayments($date1, $date2){
+        $query = $this->db->query("
+            SELECT
+                payments.payment_id as payment_id, 
+                payments.booking_id as booking_id,
+                users.first_name as first_name,
+                users.last_name as last_name,
+                payments.payment_date as payment_date,
+                payment_types.name as payment_type,
+                payments.amount as amount
+            FROM payments
+            INNER JOIN bookings
+                ON bookings.booking_id = payments.booking_id
+            INNER JOIN users
+                ON users.user_id = bookings.user_id
+            INNER JOIN payment_types
+                ON payment_types.payment_type_id = payments.payment_type_id
+            WHERE (DATE(payments.payment_date) BETWEEN '$date1' and '$date2')
+        ");
+        return $query->getResultArray();
+    }
+
 
     // public function countRooms(){
     //     $builder = $this->db->table('rooms');
