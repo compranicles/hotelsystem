@@ -71,4 +71,23 @@ class RoomModel extends Model{
         $query = $builder->get();
         return $query->getResultArray();
     }
+    public function getAllOccupied($today){
+        $query = $this->db->query("
+            SELECT DISTINCT
+                rooms.room_id as room_id,
+                bookings.booking_id as booking_id,
+                CASE WHEN shows.booking_id IS NULL THEN 0 ELSE 1 END as showed
+            FROM rooms
+            INNER JOIN reservations
+                ON reservations.room_id = rooms.room_id
+            INNER JOIN bookings
+                ON bookings.reservation_id = reservations.reservation_id
+            INNER JOIN shows
+                ON shows.booking_id = reservations.reservation_id
+            INNER JOIN room_types
+                ON room_types.room_type_id = rooms.room_type_id
+            WHERE (DATE(shows.date_checked_in) <= '$today') AND shows.date_checked_out IS NULL
+        ");
+        return $query->getResultArray();
+    }
 }
