@@ -55,6 +55,7 @@ class Payment extends BaseController {
         if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'PaymentCheckout')){
             $bookingId = $this->session->get('bookingPassToCheckout');
             
+            $data['checkForLateCheckout'] = $this->showModel->where('booking_id', $bookingId)->findColumn('date_checked_in');
             $data['forPayment'] = $this->bookingModel->getReservationDetails($bookingId);
             $data['forPaymentType'] = $this->paymentTypeModel->getPaymentType();
             $data['bookingPass'] = $bookingId;

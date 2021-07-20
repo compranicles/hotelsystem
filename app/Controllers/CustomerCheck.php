@@ -40,6 +40,7 @@ class CustomerCheck extends BaseController
 
                 else {
                     $bookingPassId = $this->showModel->where('booking_id', $booking[0]['booking_id'])->findAll();
+
                     if ((count($bookingPassId) <= 0)) {
 
                         if($booking[0]['is_today']== 1) {
