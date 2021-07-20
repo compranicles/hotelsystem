@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use App\Models\RoomModel;
 use App\Models\ShowModel;
 use App\Models\BookingModel;
+use App\Controllers\BaseController;
 use App\Controllers\PermissionChecker;
 
 class CustomerCheck extends BaseController
@@ -13,12 +15,17 @@ class CustomerCheck extends BaseController
         $this->showModel = new ShowModel();
         $this->bookingModel = new BookingModel();
         $this->permcheck = new PermissionChecker();
+        $this->roomModel = new RoomModel();
         date_default_timezone_set('Asia/Manila');
     }
 
     public function index() {
         if($this->session->has('logged_in') && $this->permcheck->check($this->session->get('id'), 'CustomerCheck')){
-            $data['check_data'] = $this->showModel->getAllData();
+            $data = [
+                'check_data' => $this->showModel->getAllData(),
+                'rooms' => $this->roomModel->findAll(),
+                'occupied'=> $this->roomModel->getAllOccupied(date(('Y-m-d'), strtotime('today'))),
+            ];
             return view('qr/scanner', $data);
         }
         return view('errors/html/error_404');
