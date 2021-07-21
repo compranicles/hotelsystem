@@ -81,7 +81,6 @@ class CustomerCheck extends BaseController
                 }
             }
         }
-        return view('errors/html/error_404');
     }
 }
 

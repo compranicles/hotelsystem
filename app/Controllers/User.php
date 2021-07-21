@@ -143,7 +143,6 @@ class User extends BaseController{
                 echo "false";
             }
         }
-        return view('errors/html/error_404');
     }
 
     public function addRoleToUser($user_id= null, $role_id= null){

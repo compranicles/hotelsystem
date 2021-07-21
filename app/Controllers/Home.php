@@ -11,9 +11,9 @@ class Home extends BaseController
 
 	public function index()
 	{	
-		if($this->session->has('logged_in')){
-			return redirect()->to(base_url().'/user/dashboard');
-		}
+		// if($this->session->has('logged_in')){
+		// 	return redirect()->to(base_url().'/user/dashboard');
+		// }
 		$data['room_types'] = $this->roomType->findAll();
 		return view('homepage/home',$data);
 	}

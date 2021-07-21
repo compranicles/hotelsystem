@@ -89,7 +89,6 @@ class Payment extends BaseController {
 
             }
         }
-        return view('errors/html/error_404');
     }
 
     public function getPaymentInfo($reservation_id){
