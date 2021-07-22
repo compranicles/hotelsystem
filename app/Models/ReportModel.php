@@ -91,17 +91,18 @@ class ReportModel extends Model{
         return $query->getResultArray();
     }
 
-    public function countUnoccupied($date1, $date2){
+    public function countUnoccupied($date){
         $builder = $this->db->table('rooms');
         $builder->selectCount('rooms.room_id');
         $builder->where('rooms.room_status_id', '1');
         $builder->where('rooms.date_deleted', NULL);
-        $builder->whereNotIn('rooms.room_id', function (BaseBuilder $builder) use($date1, $date2){
+        $builder->whereNotIn('rooms.room_id', function (BaseBuilder $builder) use($date){
             return $builder->select('reservations.room_id')
                     ->from('reservations')
                     ->join('bookings', 'reservations.reservation_id = bookings.booking_id')
                     ->join('shows', 'bookings.booking_id = shows.booking_id')
-                    ->where('shows.date_checked_in >=', $date1)->orWhere('shows.date_checked_out <=', $date2);
+                    ->where('shows.date_checked_in =', $date)->orWhere('shows.date_checked_out IS NULL')
+                    ->orWhere('shows.date_checked_out =', $date);
         });
         $query = $builder->get();
         return $query->getResultArray();

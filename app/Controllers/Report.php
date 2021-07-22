@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Controllers;
+use DateTime;
+use DatePeriod;
+use DateInterval;
 use App\Models\RoomModel;
 use CodeIgniter\I18n\Time;
 use App\Models\ReportModel;
@@ -23,6 +26,20 @@ class Report extends BaseController{
             if($this->request->getMethod()=='post'){
                 $datestart = $this->request->getVar('start_date');
                 $dateend = $this->request->getVar('end_date');
+                $begin = new DateTime($datestart);
+                $end = new DateTime($dateend);
+                $end = $end->modify("+1 day");
+
+                $interval = new DateInterval('P1D');
+                $period = new DatePeriod($begin, $interval, $end);
+                $countDays = 0;
+                $totalRooms = 0;
+                foreach ($period as $date) {
+                    $date = date("Y-m-d", strtotime($date->getTimestamp()));
+                    $totalRooms += $reportModel->countUnoccupied($date)[0]['room_id'];
+                    $countDays++;
+                }
+                $aveNumVaRoom = $totalRooms/$countDays;
                 $data = [
                     'datestart' => date("F j, Y",strtotime($datestart)),
                     'dateend' => date("F j, Y",strtotime($dateend)),
@@ -36,7 +53,7 @@ class Report extends BaseController{
                     'rangecancels' => $reportModel->countCancels($datestart, $dateend)[0]['cancels'],
                     'rangePendingCheckins' => $reportModel->countExpectedCheckIns($datestart, $dateend)[0]['echeckins'],
                     'rangePendingCheckouts' => $reportModel->countExpectedCheckOuts($datestart, $dateend)[0]['echeckouts'],
-                    'rangeunoccupied' => $reportModel->countUnoccupied($datestart, $dateend)[0]['room_id'],
+                    'rangeunoccupied' => $aveNumVaRoom,
                     'rangereservations' => $reportModel->countTotalReservations($datestart, $dateend)[0]['reservation_id'],
                     'totalrevenue' => $reportModel->totalRevenue($datestart, $dateend)[0]['amount'],
                     'totalnoshows' => $reportModel->countNoShows($datestart, $dateend),
@@ -47,6 +64,20 @@ class Report extends BaseController{
                 ];
             }
             else{
+                $begin = new DateTime($minusOneMonth);
+                $end = new DateTime($today);
+                $end = $end->modify("+1 day");
+
+                $interval = new DateInterval('P1D');
+                $period = new DatePeriod($begin, $interval, $end);
+                $countDays = 0;
+                $totalRooms = 0;
+                foreach ($period as $date) {
+                    $date = date("Y-m-d", strtotime($date->getTimestamp()));
+                    $totalRooms += $reportModel->countUnoccupied($date)[0]['room_id'];
+                    $countDays++;
+                }
+                $aveNumVaRoom = $totalRooms/$countDays;
                 $data = [
                     'datestart' => date("F j, Y",strtotime($minusOneMonth)),
                     'dateend' => date("F j, Y",strtotime($today)),
@@ -60,7 +91,7 @@ class Report extends BaseController{
                     'rangecancels' => $reportModel->countCancels($minusOneMonth, $today)[0]['cancels'],
                     'rangePendingCheckins' => $reportModel->countExpectedCheckIns($minusOneMonth, $today)[0]['echeckins'],
                     'rangePendingCheckouts' => $reportModel->countExpectedCheckOuts($minusOneMonth, $today)[0]['echeckouts'],
-                    'rangeunoccupied' => $reportModel->countUnoccupied($minusOneMonth, $today)[0]['room_id'],
+                    'rangeunoccupied' => $aveNumVaRoom,
                     'rangereservations' => $reportModel->countTotalReservations($minusOneMonth, $today)[0]['reservation_id'],
                     'totalrevenue' => $reportModel->totalRevenue($minusOneMonth, $today)[0]['amount'],
                     'totalnoshows' => $reportModel->countNoShows($minusOneMonth, $today),

@@ -149,8 +149,8 @@
                             <div class="card border-dark mb-3 ms-3" style="max-width: 15rem;">
                                 <div class="card-header bg-transparent">Ave. No. of Vacant Rooms</div>
                                 <div class="card-body text-dark">
-                                    <h1 class="card-title text-info"><?= $rangeunoccupied?></h1>
-                                    <h5 class="card-title">Vacant Rooms</h5>
+                                    <h1 class="card-title text-info"><?= number_format($rangeunoccupied, 2, ".", '')?></h1>
+                                    <h5 class="card-title">Vacant Rooms per Night</h5>
                                 </div>
                             </div>
                         </div>

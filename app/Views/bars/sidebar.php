@@ -28,7 +28,7 @@
 </div>
 
 <script>
-    var options = new Array("CheckIn","CustomerCheck", "Report", "Reservation", "Payment", "Room", "User", "Role", "Permission", "UserEdit");
+    var options = new Array("CheckIn", "CustomerCheck", "Report", "Reservation", "Payment", "Room", "User", "Role", "Permission", "UserEdit");
     var id = document.getElementById('user_id').innerHTML;
     options.forEach((option) => {
         var url = "/permissionchecker/checkajax/"+id+"/"+option;
